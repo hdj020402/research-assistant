@@ -9,7 +9,11 @@ class ClaudeClient:
         api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not api_key:
             raise ValueError("ANTHROPIC_API_KEY environment variable not set")
-        self.client = anthropic.Anthropic(api_key=api_key)
+        base_url = os.environ.get("ANTHROPIC_BASE_URL")
+        kwargs = {"api_key": api_key}
+        if base_url:
+            kwargs["base_url"] = base_url
+        self.client = anthropic.Anthropic(**kwargs)
         self.haiku_model = config["claude"]["haiku_model"]
         self.opus_model = config["claude"]["opus_model"]
         self.max_tokens_haiku = config["claude"]["max_tokens_haiku"]
