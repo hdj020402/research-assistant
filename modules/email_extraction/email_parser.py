@@ -46,7 +46,61 @@ TRACKING_DOMAINS = [
     "t.email.elsevier.com",
 ]
 
-# Words in link text that indicate non-article links (navigation, footer, etc.)
+# Titles matching these patterns are non-research content → skip
+NON_RESEARCH_TITLE_PATTERNS = [
+    # Editorials, opinions, commentary
+    r"^editorial\b",
+    r"^editor.?s?\s+(note|letter|choice|pick|highlight)",
+    r"^world\s+view\b",
+    r"^comment(ary)?\s*:",
+    r"^from\s+the\s+editor",
+    r"^in\s+this\s+issue\b",
+    r"^letter\s+to\s+the\s+editor",
+    # News, media, non-research
+    r"^news\s*(:|in\s+focus|in\s+brief|feature|\&)",
+    r"^research\s+highlight",
+    r"^daily\s+briefing",
+    r"^book\s+review",
+    r"^obituary\b",
+    r"^podcast\b",
+    r"^video\b",
+    r"^multimedia\b",
+    r"^infographic\b",
+    r"^events?\s*:",
+    r"^Q\s*&\s*A\s*:",
+    # Corrections, errata
+    r"^(author|publisher|editor)\s+correction",
+    r"^correction\s*(:|to)\s",
+    r"^erratum\b",
+    r"^retraction\b",
+    r"^corrigendum\b",
+    r"^editorial\s+expression\s+of\s+concern",
+    r"^amendment\b",
+    # Correspondence (not research)
+    r"^correspondence\s*:",
+    r"^reply\s+to\s*:",
+    r"^response\s+to\s*:",
+    # Advertisements, career, misc
+    r"^advertisement\b",
+    r"^sponsor(ed)?\b",
+    r"^career\b",
+    r"^job\b",
+    r"^nature\s+briefing",
+    r"^this\s+week\b",
+    r"^the\s+week\s+ahead",
+    # Section headers mistakenly captured as titles
+    r"^(articles?|letters?|reviews?|research|opinion)\s*$",
+]
+_NON_RESEARCH_RE = [re.compile(p, re.IGNORECASE) for p in NON_RESEARCH_TITLE_PATTERNS]
+
+
+def _is_non_research(title: str) -> bool:
+    """Check if a title indicates non-research content."""
+    title_stripped = title.strip()
+    for pattern in _NON_RESEARCH_RE:
+        if pattern.search(title_stripped):
+            return True
+    return False
 SKIP_LINK_TEXTS = {
     "unsubscribe", "manage preferences", "privacy policy", "view in browser",
     "view online", "contact us", "terms of use", "cookie policy",
@@ -147,6 +201,13 @@ def parse_email(email_data: dict) -> list[ArticleItem]:
     if not articles and text_body:
         articles = _parse_text_fallback(text_body, journal)
 
+    # Filter out non-research content (editorials, news, corrections, etc.)
+    before_filter = len(articles)
+    articles = [a for a in articles if not _is_non_research(a.title)]
+    filtered_count = before_filter - len(articles)
+    if filtered_count:
+        log.info(f"  Filtered {filtered_count} non-research items (editorials, news, corrections, etc.)")
+
     # Deduplicate by URL (primary) and title (secondary)
     unique = _deduplicate(articles)
     log.debug(f"  Parsed {len(unique)} unique articles from '{subject}'")
@@ -205,8 +266,8 @@ def _extract_by_link_text(soup: BeautifulSoup, journal: str) -> list[ArticleItem
         if not title:
             continue
 
-        # Article titles are typically 15-300 chars
-        if len(title) < 15 or len(title) > 300:
+        # Article titles are typically 20-300 chars
+        if len(title) < 20 or len(title) > 300:
             continue
 
         # Skip if title looks like a navigation element (all caps short text, etc.)
