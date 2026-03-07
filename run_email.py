@@ -1,4 +1,5 @@
 """Entry point for Module 1: Email Journal Abstract Extraction."""
+import re
 import sys
 import logging
 from datetime import datetime
@@ -23,6 +24,27 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 log = logging.getLogger(__name__)
+
+
+def _keyword_filter(articles, keywords):
+    """
+    Pre-filter articles by relevance keywords (case-insensitive).
+    Matches against title and abstract_from_email.
+    Returns (matched, skipped_count).
+    """
+    if not keywords:
+        return articles, 0
+
+    # Compile patterns once (word boundary aware where possible)
+    patterns = [re.compile(re.escape(kw), re.IGNORECASE) for kw in keywords]
+
+    matched = []
+    for article in articles:
+        text = f"{article.title} {article.abstract_from_email}"
+        if any(p.search(text) for p in patterns):
+            matched.append(article)
+
+    return matched, len(articles) - len(matched)
 
 
 def main():
@@ -69,7 +91,19 @@ def main():
         log.warning("No articles found in emails. Exiting.")
         sys.exit(0)
 
-    # Step 3: Optionally fetch web abstracts
+    # Step 3: Keyword pre-filter (before Claude to save tokens)
+    keywords = proc_cfg.get("relevance_keywords", [])
+    if keywords:
+        all_articles_raw, skipped = _keyword_filter(all_articles_raw, keywords)
+        log.info(
+            f"Keyword pre-filter: {len(all_articles_raw)} matched, "
+            f"{skipped} skipped ({len(keywords)} keywords)"
+        )
+        if not all_articles_raw:
+            log.warning("No articles matched relevance keywords. Exiting.")
+            sys.exit(0)
+
+    # Step 4: Optionally fetch web abstracts (only for filtered articles)
     if proc_cfg.get("fetch_web_abstract", True):
         timeout = proc_cfg.get("web_fetch_timeout_seconds", 10)
         for i, article in enumerate(all_articles_raw):
@@ -79,9 +113,15 @@ def main():
                     article.abstract_from_email = fetched
                     log.info(f"  [{i+1}/{len(all_articles_raw)}] Fetched abstract for: {article.title[:50]}")
 
-    # Step 4: Claude processing
+    # After fetching abstracts, re-run keyword filter for articles that now have abstracts
+    if keywords:
+        all_articles_raw, skipped2 = _keyword_filter(all_articles_raw, keywords)
+        if skipped2:
+            log.info(f"Post-abstract keyword filter: {skipped2} more skipped")
+
+    # Step 5: Claude processing
     processed = []
-    log.info("Processing articles with Claude Haiku...")
+    log.info(f"Processing {len(all_articles_raw)} articles with Claude Haiku...")
     for i, article in enumerate(all_articles_raw):
         log.info(f"  [{i+1}/{len(all_articles_raw)}] Processing: {article.title[:60]}")
         try:
@@ -101,7 +141,7 @@ def main():
 
     log.info(f"Successfully processed {len(processed)} articles")
 
-    # Step 5: Write Obsidian notes
+    # Step 6: Write Obsidian notes
     notes_dir = out_cfg["notes_dir"]
     log.info(f"Writing Obsidian notes to {notes_dir}/{week}/")
     for article in processed:
@@ -111,11 +151,11 @@ def main():
         except Exception as e:
             log.error(f"  Failed to write note for '{article.title[:40]}': {e}")
 
-    # Step 6: Write weekly index
+    # Step 7: Write weekly index
     index_path = write_weekly_index(notes_dir, week, len(processed))
     log.info(f"Written weekly index: {index_path}")
 
-    # Step 7: Send summary email
+    # Step 8: Send summary email
     if out_cfg.get("send_summary_email", True):
         html = generate_html_email(processed, week)
         to = out_cfg["summary_email_to"]
