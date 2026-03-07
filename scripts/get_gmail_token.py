@@ -35,7 +35,7 @@ def main():
     flow = InstalledAppFlow.from_client_secrets_file("client_secret.json", SCOPES)
 
     # This opens a browser for authorization
-    creds = flow.run_local_server(port=8080, prompt="consent", access_type="offline")
+    creds = flow.run_local_server(port=0, prompt="consent", access_type="offline")
 
     # Read client_secret.json to extract client_id and client_secret
     with open("client_secret.json") as f:
