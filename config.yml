@@ -1,0 +1,49 @@
+global:
+  timezone: "Asia/Shanghai"
+  github_user_name: "hdj020402"
+  github_user_email: "hudejun2002@gmail.com"
+
+claude:
+  haiku_model: "claude-haiku-4-5-20251001"
+  opus_model: "claude-opus-4-6"
+  max_tokens_haiku: 2048
+  max_tokens_opus: 8192
+
+email_extraction:
+  sender_patterns:
+    - "acs.pubs@acs.org"
+    - "alerts@springer.com"
+    - "noreply@rsc.org"
+    - "toc-alerts@elsevier.com"
+    - "noreply@wiley.com"
+  subject_patterns:
+    - "Table of Contents"
+    - "New Articles"
+    - "Just Accepted"
+    - "ASAP Articles"
+  processing:
+    translate_to_chinese: true
+    generate_tags: true
+    generate_relevance_score: true
+    fetch_web_abstract: true
+    web_fetch_timeout_seconds: 10
+    lookback_days: 8
+  output:
+    notes_dir: "notes/daily"
+    send_summary_email: true
+    summary_email_to: "hudejun2002@gmail.com"
+
+domain_deepdive:
+  semantic_scholar:
+    use_api_key: true
+    initial_search_limit: 20
+    min_citation_count: 10
+    citation_traversal:
+      max_levels: 2
+      max_papers_per_level: 15
+      max_expand_per_paper: 10
+  output:
+    notes_dir: "notes/deepdive"
+    graph_dir: "output/graphs"
+    download_open_access_pdf: true
+    pdf_dir: "output/pdfs"

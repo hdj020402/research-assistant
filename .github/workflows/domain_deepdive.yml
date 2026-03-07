@@ -1,0 +1,48 @@
+name: Domain Deep-Dive
+
+on:
+  workflow_dispatch:
+    inputs:
+      field_keywords:
+        description: "Search keywords (e.g. 'graph neural network drug discovery')"
+        required: true
+        type: string
+      field_name:
+        description: "Field name for output directory (e.g. 'gnn-drug-discovery')"
+        required: true
+        type: string
+
+jobs:
+  deepdive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run domain deep-dive
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+        run: |
+          python run_deepdive.py \
+            --keywords "${{ github.event.inputs.field_keywords }}" \
+            --field-name "${{ github.event.inputs.field_name }}"
+
+      - name: Commit and push generated notes and graphs
+        run: |
+          git config user.name "${{ vars.GIT_USER_NAME || 'hdj020402' }}"
+          git config user.email "${{ vars.GIT_USER_EMAIL || 'hudejun2002@gmail.com' }}"
+          git add notes/deepdive/ output/
+          git diff --staged --quiet || git commit -m "chore: add deep-dive notes for ${{ github.event.inputs.field_name }} $(date +'%Y-%m-%d')"
+          git push

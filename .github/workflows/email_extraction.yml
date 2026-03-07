@@ -1,0 +1,41 @@
+name: Email Journal Extraction
+
+on:
+  schedule:
+    # Every Monday at 08:00 UTC (16:00 Beijing time)
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run email extraction
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+        run: python run_email.py
+
+      - name: Commit and push generated notes
+        run: |
+          git config user.name "${{ vars.GIT_USER_NAME || 'hdj020402' }}"
+          git config user.email "${{ vars.GIT_USER_EMAIL || 'hudejun2002@gmail.com' }}"
+          git add notes/daily/
+          git diff --staged --quiet || git commit -m "chore: add weekly literature notes $(date +'%Y-%m-%d')"
+          git push

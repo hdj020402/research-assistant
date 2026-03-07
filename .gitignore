@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Output artifacts (PDFs tracked separately if needed)
+output/pdfs/
+
+# Secrets & credentials
+*.json
+!.github/**/*.json
+token.json
+credentials.json
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
