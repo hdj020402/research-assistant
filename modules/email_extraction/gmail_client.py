@@ -21,7 +21,10 @@ def _build_service():
         client_id=os.environ["GMAIL_CLIENT_ID"],
         client_secret=os.environ["GMAIL_CLIENT_SECRET"],
         token_uri="https://oauth2.googleapis.com/token",
-        scopes=["https://www.googleapis.com/auth/gmail.modify"],
+        scopes=[
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.send",
+        ],
     )
     # Force token refresh
     creds.refresh(Request())
