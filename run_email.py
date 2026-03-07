@@ -91,7 +91,7 @@ def main():
                 journal=article.journal,
                 doi=article.doi,
                 url=article.url,
-                authors="",
+                authors=article.authors,
                 pub_date="",
                 claude=claude,
             )
