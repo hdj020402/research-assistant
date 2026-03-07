@@ -47,10 +47,10 @@ def fetch_toc_emails(
     cutoff = datetime.now(tz) - timedelta(days=lookback_days)
     after_epoch = int(cutoff.timestamp())
 
-    # Build query: match any sender OR subject pattern
+    # Build query: match any sender OR any subject pattern (OR logic, not AND)
     sender_query = " OR ".join(f"from:{s}" for s in sender_patterns)
     subject_query = " OR ".join(f'subject:"{s}"' for s in subject_patterns)
-    query = f"({sender_query}) ({subject_query}) after:{after_epoch}"
+    query = f"({sender_query} OR {subject_query}) after:{after_epoch}"
 
     results = (
         service.users()

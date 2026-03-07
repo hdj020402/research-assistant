@@ -16,7 +16,7 @@ email_extraction:
     - "noreply@rsc.org"
     - "toc-alerts@elsevier.com"
     - "noreply@wiley.com"
-    - "ealert@nature.com"
+    - "alerts@nature.com"
     - "updates@acspubs.org"
   subject_patterns:
     - "Table of Contents"
