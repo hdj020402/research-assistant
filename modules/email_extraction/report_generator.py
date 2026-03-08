@@ -11,11 +11,11 @@ from modules.email_extraction.claude_processor import ProcessedArticle
 
 
 def _week_range(timezone: str = "Asia/Shanghai") -> str:
-    """Return current week range string like '250303-250309' (Mon-Sun)."""
+    """Return previous week range string like '250303-250309' (Mon-Sun)."""
     tz = pytz.timezone(timezone)
     now = datetime.now(tz)
-    # Monday of current week
-    monday = now - timedelta(days=now.weekday())
+    # Monday of previous week (emails are from the past week)
+    monday = now - timedelta(days=now.weekday() + 7)
     sunday = monday + timedelta(days=6)
     return f"{monday.strftime('%y%m%d')}-{sunday.strftime('%y%m%d')}"
 
@@ -107,57 +107,45 @@ def generate_html_email(
     """Generate an HTML summary email sorted by ai_relevance descending."""
     sorted_articles = sorted(articles, key=lambda a: a.ai_relevance, reverse=True)
 
-    rows = ""
+    cards = ""
     for i, a in enumerate(sorted_articles, 1):
         tags_html = " ".join(
-            f'<span style="background:#e8f4fd;color:#1a73e8;padding:2px 6px;border-radius:3px;font-size:11px;">{t}</span>'
+            f'<span style="background:#e8f4fd;color:#1a73e8;padding:2px 6px;border-radius:3px;font-size:11px;display:inline-block;margin:2px 2px 2px 0;">{t}</span>'
             for t in a.tags
         )
         stars = "★" * a.ai_relevance + "☆" * (5 - a.ai_relevance)
-        rows += f"""
-        <tr style="border-bottom:1px solid #e0e0e0;">
-          <td style="padding:12px 8px;font-weight:bold;color:#666;width:40px;">{i}</td>
-          <td style="padding:12px 8px;">
-            <a href="{a.url}" style="color:#1a0dab;text-decoration:none;font-weight:bold;">{_escape_html(a.title)}</a>
-            {f'<br><span style="color:#555;font-size:13px;">{_escape_html(a.title_zh)}</span>' if a.title_zh else ""}
-            <br><span style="color:#888;font-size:12px;">{_escape_html(a.journal)} · {a.pub_date}</span>
-            {f'<br><span style="color:#888;font-size:11px;">{_escape_html(a.authors)}</span>' if a.authors else ""}
-          </td>
-          <td style="padding:12px 8px;width:60px;color:#f5a623;font-size:16px;" title="AI相关度 {a.ai_relevance}/5">{stars}</td>
-          <td style="padding:12px 8px;max-width:400px;">
-            {f'<p style="margin:0 0 8px;font-size:13px;color:#1a73e8;background:#f0f7ff;padding:6px 8px;border-radius:4px;">{_escape_html(a.highlights)}</p>' if a.highlights else ""}
-            <p style="margin:0 0 6px;font-size:13px;color:#333;">{_escape_html(a.abstract_zh)}</p>
-            <details>
-              <summary style="font-size:12px;color:#888;cursor:pointer;">English abstract</summary>
-              <p style="font-size:12px;color:#555;">{_escape_html(a.abstract_en)}</p>
-            </details>
-            <div style="margin-top:6px;">{tags_html}</div>
-          </td>
-        </tr>
+        cards += f"""
+    <div style="border:1px solid #e0e0e0;border-radius:8px;padding:16px;margin-bottom:14px;background:#fff;">
+      <div style="margin-bottom:8px;">
+        <span style="color:#f5a623;font-size:15px;margin-right:8px;" title="AI相关度 {a.ai_relevance}/5">{stars}</span>
+        <span style="color:#888;font-size:12px;">{_escape_html(a.journal)}{f' · {a.pub_date}' if a.pub_date else ''}</span>
+        <span style="color:#999;font-size:12px;float:right;">#{i}</span>
+      </div>
+      <div style="margin-bottom:6px;">
+        <a href="{a.url}" style="color:#1a0dab;text-decoration:none;font-size:15px;font-weight:bold;line-height:1.4;">{_escape_html(a.title)}</a>
+      </div>
+      {f'<div style="color:#555;font-size:13px;margin-bottom:6px;">{_escape_html(a.title_zh)}</div>' if a.title_zh else ""}
+      {f'<div style="color:#888;font-size:11px;margin-bottom:8px;">{_escape_html(a.authors)}</div>' if a.authors else ""}
+      {f'<div style="background:#f0f7ff;border-left:3px solid #1a73e8;padding:8px 10px;margin-bottom:8px;font-size:13px;color:#1a73e8;border-radius:0 4px 4px 0;">{_escape_html(a.highlights)}</div>' if a.highlights else ""}
+      <div style="font-size:13px;color:#333;line-height:1.6;margin-bottom:8px;">{_escape_html(a.abstract_zh)}</div>
+      <details style="margin-bottom:8px;">
+        <summary style="font-size:12px;color:#888;cursor:pointer;">English abstract</summary>
+        <p style="font-size:12px;color:#555;line-height:1.5;margin-top:6px;">{_escape_html(a.abstract_en)}</p>
+      </details>
+      <div>{tags_html}</div>
+    </div>
 """
 
     html = f"""<!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"><title>本周文献摘要 {week_range}</title></head>
-<body style="font-family:Arial,sans-serif;max-width:900px;margin:0 auto;padding:20px;color:#333;">
+<head><meta charset="utf-8"><title>文献周报 {week_range}</title></head>
+<body style="font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:20px;color:#333;background:#f5f5f5;">
   <h1 style="color:#2c3e50;border-bottom:2px solid #3498db;padding-bottom:10px;">
-    本周文献摘要 ({week_range})
+    文献周报 ({week_range})
   </h1>
   <p style="color:#666;">共 <strong>{len(articles)}</strong> 篇文章，按 AI 相关度排序</p>
-  <table style="width:100%;border-collapse:collapse;">
-    <thead>
-      <tr style="background:#f8f9fa;border-bottom:2px solid #dee2e6;">
-        <th style="padding:10px 8px;text-align:left;">#</th>
-        <th style="padding:10px 8px;text-align:left;">标题</th>
-        <th style="padding:10px 8px;text-align:left;">AI相关度</th>
-        <th style="padding:10px 8px;text-align:left;">摘要</th>
-      </tr>
-    </thead>
-    <tbody>
-      {rows}
-    </tbody>
-  </table>
-  <p style="color:#888;font-size:12px;margin-top:20px;">
+  {cards}
+  <p style="color:#888;font-size:12px;margin-top:20px;text-align:center;">
     由 Research Assistant 自动生成 · {week_range}
   </p>
 </body>

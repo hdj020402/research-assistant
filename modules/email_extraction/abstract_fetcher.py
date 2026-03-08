@@ -66,6 +66,10 @@ def _extract_abstract(html: str, final_url: str) -> str:
     """Extract abstract text using publisher-specific or generic selectors."""
     soup = BeautifulSoup(html, "lxml")
 
+    # Remove reference superscripts (e.g. Nature uses <sup> for citation numbers)
+    for sup in soup.find_all("sup"):
+        sup.decompose()
+
     # Try publisher-specific selectors
     for domain, selectors in ABSTRACT_SELECTORS.items():
         if domain in final_url:

@@ -100,8 +100,8 @@ def _search_by_title(title: str, headers: dict, timeout: int) -> dict:
                 return {"abstract": "", "doi": "", "tldr": ""}
             elif resp.status_code == 429:
                 if attempt == 0:
-                    log.info("S2 rate limited (429), retrying in 5s...")
-                    time.sleep(5)
+                    log.info("S2 rate limited (429), retrying in 10s...")
+                    time.sleep(10)
                     continue
                 log.warning("S2 rate limited (429) after retry, skipping")
             else:

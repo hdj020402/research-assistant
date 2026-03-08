@@ -69,7 +69,7 @@ def process_article(
 
     prompt = f"""Analyze this chemistry paper abstract and return a JSON object with these exact keys:
 - "title_zh": Chinese translation of the paper title
-- "abstract_zh": Chinese translation of the abstract (comprehensive, 100-200 Chinese characters)
+- "abstract_zh": Complete Chinese translation of the abstract (translate fully, do not summarize or truncate)
 {highlights_instruction}
 - "tags": array of 3-5 lowercase English topic tags (e.g. ["machine-learning", "catalyst-design"])
 - "ai_relevance": integer 1-5 scoring relevance to "AI for Chemistry" research
