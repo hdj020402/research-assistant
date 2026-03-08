@@ -10,7 +10,7 @@ class ClaudeClient:
         if not api_key:
             raise ValueError("ANTHROPIC_API_KEY environment variable not set")
         base_url = os.environ.get("ANTHROPIC_BASE_URL")
-        kwargs = {"api_key": api_key}
+        kwargs = {"api_key": api_key, "timeout": 120.0}
         if base_url:
             kwargs["base_url"] = base_url
         self.client = anthropic.Anthropic(**kwargs)

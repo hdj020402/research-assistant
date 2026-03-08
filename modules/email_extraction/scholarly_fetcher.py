@@ -1,6 +1,7 @@
 """Fetch paper metadata (abstract, DOI) from Semantic Scholar API."""
 import os
 import logging
+import re
 import requests
 from shared.rate_limiter import RateLimiter
 
@@ -11,6 +12,20 @@ S2_FIELDS = "abstract,externalIds,title,tldr"
 
 _api_key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")
 _rate_limiter = RateLimiter(calls_per_second=0.9 if _api_key else 0.3)
+
+
+def _normalize(text: str) -> str:
+    """Lowercase, strip punctuation/spaces for fuzzy title comparison."""
+    return re.sub(r"[^a-z0-9]", "", text.lower())
+
+
+def _title_similar(a: str, b: str) -> bool:
+    """Check if two titles are similar enough (one contains 80%+ of the other)."""
+    na, nb = _normalize(a), _normalize(b)
+    if not na or not nb:
+        return False
+    shorter, longer = (na, nb) if len(na) <= len(nb) else (nb, na)
+    return shorter in longer or len(shorter) / len(longer) > 0.8
 
 
 def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> dict:
@@ -30,7 +45,7 @@ def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> d
         if result["abstract"]:
             return result
 
-    # Fall back to title search
+    # Fall back to title search (with title verification)
     if title:
         result = _search_by_title(title, headers, timeout)
         if result["abstract"] or result["doi"]:
@@ -40,6 +55,8 @@ def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> d
             return result
 
     return {"abstract": "", "doi": doi, "tldr": ""}
+
+
 def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
     try:
         _rate_limiter.wait()
@@ -51,25 +68,39 @@ def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
         )
         if resp.status_code == 200:
             return _extract(resp.json())
-        log.debug(f"S2 DOI lookup returned {resp.status_code} for {doi}")
+        log.info(f"S2 DOI lookup returned {resp.status_code} for {doi}")
     except Exception as e:
-        log.debug(f"S2 DOI lookup failed for {doi}: {e}")
+        log.info(f"S2 DOI lookup failed for {doi}: {e}")
     return {"abstract": "", "doi": doi, "tldr": ""}
+
+
 def _search_by_title(title: str, headers: dict, timeout: int) -> dict:
     try:
         _rate_limiter.wait()
         resp = requests.get(
             f"{S2_BASE}/paper/search",
-            params={"query": title[:200], "fields": S2_FIELDS, "limit": 1},
+            params={"query": title[:200], "fields": S2_FIELDS, "limit": 3},
             headers=headers,
             timeout=timeout,
         )
         if resp.status_code == 200:
             papers = resp.json().get("data", [])
+            # Pick the first result whose title is similar enough
+            for paper in papers:
+                s2_title = paper.get("title", "")
+                if _title_similar(title, s2_title):
+                    return _extract(paper)
             if papers:
-                return _extract(papers[0])
+                log.info(
+                    f"S2 title mismatch: '{title[:50]}' "
+                    f"vs '{papers[0].get('title', '')[:50]}'"
+                )
+        elif resp.status_code == 429:
+            log.warning("S2 rate limited (429), skipping title search")
+        else:
+            log.info(f"S2 title search returned {resp.status_code}")
     except Exception as e:
-        log.debug(f"S2 title search failed for '{title[:50]}': {e}")
+        log.info(f"S2 title search failed for '{title[:50]}': {e}")
     return {"abstract": "", "doi": "", "tldr": ""}
 
 
