@@ -25,6 +25,8 @@ class ProcessedArticle:
     abstract_zh: str
     tags: list[str]
     ai_relevance: int  # 1-5
+    title_zh: str = ""
+    highlights: str = ""
     pub_date: str = ""
     authors: str = ""
 
@@ -48,7 +50,9 @@ def process_article(
     _rate_limiter.wait()
 
     prompt = f"""Analyze this chemistry paper abstract and return a JSON object with these exact keys:
+- "title_zh": Chinese translation of the paper title
 - "abstract_zh": Chinese translation of the abstract (comprehensive, 100-200 Chinese characters)
+- "highlights": 1-2 sentence Chinese summary of key contributions/highlights, followed by a blank line and keywords in this format: "**关键词**: 词1、词2、词3"
 - "tags": array of 3-5 lowercase English topic tags (e.g. ["machine-learning", "catalyst-design"])
 - "ai_relevance": integer 1-5 scoring relevance to "AI for Chemistry" research
   (1=no AI, 2=minor computational, 3=ML/DL applied, 4=significant AI contribution, 5=core AI+Chemistry)
@@ -62,7 +66,7 @@ Respond with JSON only."""
     result = claude.haiku(prompt, system=SYSTEM_PROMPT)
 
     # Parse JSON response
-    abstract_zh, tags, ai_relevance = _parse_response(result, abstract)
+    abstract_zh, tags, ai_relevance, title_zh, highlights = _parse_response(result, abstract)
 
     return ProcessedArticle(
         title=title,
@@ -73,6 +77,8 @@ Respond with JSON only."""
         abstract_zh=abstract_zh,
         tags=tags,
         ai_relevance=ai_relevance,
+        title_zh=title_zh,
+        highlights=highlights,
         pub_date=pub_date,
         authors=authors,
     )
@@ -80,7 +86,7 @@ Respond with JSON only."""
 
 def _parse_response(
     response: str, original_abstract: str
-) -> tuple[str, list[str], int]:
+) -> tuple[str, list[str], int, str, str]:
     """Parse Claude's JSON response, with fallback values on failure."""
     try:
         # Strip markdown code blocks if present
@@ -93,6 +99,8 @@ def _parse_response(
         tags = [str(t).lower().strip() for t in tags[:5]]
         ai_relevance = int(data.get("ai_relevance", 1))
         ai_relevance = max(1, min(5, ai_relevance))
-        return abstract_zh, tags, ai_relevance
+        title_zh = data.get("title_zh", "")
+        highlights = data.get("highlights", "")
+        return abstract_zh, tags, ai_relevance, title_zh, highlights
     except Exception:
-        return "翻译失败", [], 1
+        return "翻译失败", [], 1, "", ""

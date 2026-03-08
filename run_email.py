@@ -107,7 +107,7 @@ def main():
     if proc_cfg.get("fetch_web_abstract", True):
         timeout = proc_cfg.get("web_fetch_timeout_seconds", 10)
         for i, article in enumerate(all_articles_raw):
-            if article.url and not article.abstract_from_email:
+            if article.url:
                 fetched = fetch_abstract(article.url, timeout=timeout)
                 if fetched:
                     article.abstract_from_email = fetched

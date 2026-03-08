@@ -34,10 +34,12 @@ def write_article_note(
     # Escape quotes in title for YAML
     safe_title = article.title.replace('"', '\\"')
     safe_journal = article.journal.replace('"', '\\"')
+    safe_title_zh = article.title_zh.replace('"', '\\"') if article.title_zh else ""
     tags_yaml = "[" + ", ".join(f'"{t}"' for t in article.tags) + "]"
 
     content = f"""---
 title: "{safe_title}"
+title_zh: "{safe_title_zh}"
 journal: "{safe_journal}"
 doi: "{article.doi}"
 url: "{article.url}"
@@ -53,7 +55,8 @@ date_added: "{date_added}"
 ---
 
 # {article.title}
-
+{f"{chr(10)}**{article.title_zh}**{chr(10)}" if article.title_zh else ""}
+{f"## 精华总结{chr(10)}{article.highlights}{chr(10)}" if article.highlights else ""}
 ## 摘要（英文）
 {article.abstract_en if article.abstract_en else "_No abstract available._"}
 
@@ -116,11 +119,13 @@ def generate_html_email(
           <td style="padding:12px 8px;font-weight:bold;color:#666;width:40px;">{i}</td>
           <td style="padding:12px 8px;">
             <a href="{a.url}" style="color:#1a0dab;text-decoration:none;font-weight:bold;">{_escape_html(a.title)}</a>
+            {f'<br><span style="color:#555;font-size:13px;">{_escape_html(a.title_zh)}</span>' if a.title_zh else ""}
             <br><span style="color:#888;font-size:12px;">{_escape_html(a.journal)} · {a.pub_date}</span>
             {f'<br><span style="color:#888;font-size:11px;">{_escape_html(a.authors)}</span>' if a.authors else ""}
           </td>
           <td style="padding:12px 8px;width:60px;color:#f5a623;font-size:16px;" title="AI相关度 {a.ai_relevance}/5">{stars}</td>
           <td style="padding:12px 8px;max-width:400px;">
+            {f'<p style="margin:0 0 8px;font-size:13px;color:#1a73e8;background:#f0f7ff;padding:6px 8px;border-radius:4px;">{_escape_html(a.highlights)}</p>' if a.highlights else ""}
             <p style="margin:0 0 6px;font-size:13px;color:#333;">{_escape_html(a.abstract_zh)}</p>
             <details>
               <summary style="font-size:12px;color:#888;cursor:pointer;">English abstract</summary>
