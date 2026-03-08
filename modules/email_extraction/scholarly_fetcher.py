@@ -2,6 +2,7 @@
 import os
 import logging
 import re
+import time
 import requests
 from shared.rate_limiter import RateLimiter
 
@@ -11,7 +12,9 @@ S2_BASE = "https://api.semanticscholar.org/graph/v1"
 S2_FIELDS = "abstract,externalIds,title,tldr"
 
 _api_key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")
-_rate_limiter = RateLimiter(calls_per_second=0.9 if _api_key else 0.3)
+# Paper endpoint: generous limit; Search endpoint: stricter limit
+_paper_limiter = RateLimiter(calls_per_second=0.9 if _api_key else 0.3)
+_search_limiter = RateLimiter(calls_per_second=0.3)  # search is always stricter
 
 
 def _normalize(text: str) -> str:
@@ -59,7 +62,7 @@ def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> d
 
 def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
     try:
-        _rate_limiter.wait()
+        _paper_limiter.wait()
         resp = requests.get(
             f"{S2_BASE}/paper/DOI:{doi}",
             params={"fields": S2_FIELDS},
@@ -75,32 +78,40 @@ def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
 
 
 def _search_by_title(title: str, headers: dict, timeout: int) -> dict:
-    try:
-        _rate_limiter.wait()
-        resp = requests.get(
-            f"{S2_BASE}/paper/search",
-            params={"query": title[:200], "fields": S2_FIELDS, "limit": 3},
-            headers=headers,
-            timeout=timeout,
-        )
-        if resp.status_code == 200:
-            papers = resp.json().get("data", [])
-            # Pick the first result whose title is similar enough
-            for paper in papers:
-                s2_title = paper.get("title", "")
-                if _title_similar(title, s2_title):
-                    return _extract(paper)
-            if papers:
-                log.info(
-                    f"S2 title mismatch: '{title[:50]}' "
-                    f"vs '{papers[0].get('title', '')[:50]}'"
-                )
-        elif resp.status_code == 429:
-            log.warning("S2 rate limited (429), skipping title search")
-        else:
-            log.info(f"S2 title search returned {resp.status_code}")
-    except Exception as e:
-        log.info(f"S2 title search failed for '{title[:50]}': {e}")
+    for attempt in range(2):
+        try:
+            _search_limiter.wait()
+            resp = requests.get(
+                f"{S2_BASE}/paper/search",
+                params={"query": title[:200], "fields": S2_FIELDS, "limit": 3},
+                headers=headers,
+                timeout=timeout,
+            )
+            if resp.status_code == 200:
+                papers = resp.json().get("data", [])
+                # Pick the first result whose title is similar enough
+                for paper in papers:
+                    s2_title = paper.get("title", "")
+                    if _title_similar(title, s2_title):
+                        return _extract(paper)
+                if papers:
+                    log.info(
+                        f"S2 title mismatch: '{title[:50]}' "
+                        f"vs '{papers[0].get('title', '')[:50]}'"
+                    )
+                return {"abstract": "", "doi": "", "tldr": ""}
+            elif resp.status_code == 429:
+                if attempt == 0:
+                    log.info("S2 rate limited (429), retrying in 5s...")
+                    time.sleep(5)
+                    continue
+                log.warning("S2 rate limited (429) after retry, skipping")
+            else:
+                log.info(f"S2 title search returned {resp.status_code}")
+            return {"abstract": "", "doi": "", "tldr": ""}
+        except Exception as e:
+            log.info(f"S2 title search failed for '{title[:50]}': {e}")
+            return {"abstract": "", "doi": "", "tldr": ""}
     return {"abstract": "", "doi": "", "tldr": ""}
 
 
