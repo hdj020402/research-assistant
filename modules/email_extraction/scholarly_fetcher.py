@@ -1,7 +1,6 @@
 """Fetch paper metadata (abstract, DOI) from Semantic Scholar API."""
 import os
 import logging
-import re
 import time
 import requests
 from shared.rate_limiter import RateLimiter
@@ -15,25 +14,11 @@ _api_key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")
 _rate_limiter = RateLimiter(calls_per_second=0.5)  # shared across all S2 endpoints
 
 
-def _normalize(text: str) -> str:
-    """Lowercase, strip punctuation/spaces for fuzzy title comparison."""
-    return re.sub(r"[^a-z0-9]", "", text.lower())
-
-
-def _title_similar(a: str, b: str) -> bool:
-    """Check if two titles are similar enough (one contains 80%+ of the other)."""
-    na, nb = _normalize(a), _normalize(b)
-    if not na or not nb:
-        return False
-    shorter, longer = (na, nb) if len(na) <= len(nb) else (nb, na)
-    return shorter in longer or len(shorter) / len(longer) > 0.8
-
-
-def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> dict:
+def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 5) -> dict:
     """
     Query Semantic Scholar for paper abstract and DOI.
 
-    Tries DOI lookup first, then title search as fallback.
+    Tries DOI lookup first, then title match as fallback.
     Returns dict with keys: 'abstract', 'doi', 'tldr' (empty strings if not found).
     """
     headers = {"Accept": "application/json"}
@@ -46,11 +31,10 @@ def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> d
         if result["abstract"]:
             return result
 
-    # Fall back to title search (with title verification)
+    # Fall back to title match (single best match, 404 if not found)
     if title:
-        result = _search_by_title(title, headers, timeout)
+        result = _match_by_title(title, headers, timeout)
         if result["abstract"] or result["doi"]:
-            # Preserve original DOI if we already have it
             if doi and not result["doi"]:
                 result["doi"] = doi
             return result
@@ -75,40 +59,37 @@ def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
     return {"abstract": "", "doi": doi, "tldr": ""}
 
 
-def _search_by_title(title: str, headers: dict, timeout: int) -> dict:
+def _match_by_title(title: str, headers: dict, timeout: int) -> dict:
+    """Use /paper/search/match for exact title matching (returns single best match or 404)."""
     for attempt in range(2):
         try:
             _rate_limiter.wait()
             resp = requests.get(
-                f"{S2_BASE}/paper/search",
-                params={"query": title[:200], "fields": S2_FIELDS, "limit": 3},
+                f"{S2_BASE}/paper/search/match",
+                params={"query": title[:300], "fields": S2_FIELDS},
                 headers=headers,
                 timeout=timeout,
             )
             if resp.status_code == 200:
-                papers = resp.json().get("data", [])
-                # Pick the first result whose title is similar enough
-                for paper in papers:
-                    s2_title = paper.get("title", "")
-                    if _title_similar(title, s2_title):
-                        return _extract(paper)
-                if papers:
-                    log.info(
-                        f"S2 title mismatch: '{title[:50]}' "
-                        f"vs '{papers[0].get('title', '')[:50]}'"
-                    )
+                data = resp.json().get("data", [])
+                if data:
+                    return _extract(data[0])
+                return {"abstract": "", "doi": "", "tldr": ""}
+            elif resp.status_code == 404:
+                # No matching paper found — expected for new papers
+                log.info(f"S2 title match: not found for '{title[:60]}'")
                 return {"abstract": "", "doi": "", "tldr": ""}
             elif resp.status_code == 429:
                 if attempt == 0:
-                    log.info("S2 rate limited (429), retrying in 10s...")
-                    time.sleep(10)
+                    log.info("S2 rate limited (429), retrying in 3s...")
+                    time.sleep(3)
                     continue
                 log.warning("S2 rate limited (429) after retry, skipping")
             else:
-                log.info(f"S2 title search returned {resp.status_code}")
+                log.info(f"S2 title match returned {resp.status_code}")
             return {"abstract": "", "doi": "", "tldr": ""}
         except Exception as e:
-            log.info(f"S2 title search failed for '{title[:50]}': {e}")
+            log.info(f"S2 title match failed for '{title[:60]}': {e}")
             return {"abstract": "", "doi": "", "tldr": ""}
     return {"abstract": "", "doi": "", "tldr": ""}
 
