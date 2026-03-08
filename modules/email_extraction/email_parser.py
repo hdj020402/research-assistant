@@ -295,7 +295,7 @@ def _extract_by_link_text(soup: BeautifulSoup, journal: str) -> list[ArticleItem
 
         abstract = _find_nearby_text(element, min_len=30)
         authors = _find_nearby_authors(element)
-        doi = _extract_doi_from_url(href) or ""
+        doi = _extract_doi_from_url(href) or _find_nearby_doi(element) or ""
 
         articles.append(ArticleItem(
             title=title,
@@ -402,6 +402,18 @@ def _find_nearby_authors(a_tag: Tag) -> str:
                 if text and ("," in text or "et al" in text.lower() or "&" in text):
                     if 5 < len(text) < 500:
                         return text
+            break
+    return ""
+
+
+def _find_nearby_doi(a_tag: Tag) -> str:
+    """Try to find a DOI in the text near a link element."""
+    for ancestor in a_tag.parents:
+        if ancestor.name in ("td", "div", "tr", "li"):
+            text = ancestor.get_text(separator=" ", strip=True)
+            match = DOI_PATTERN.search(text)
+            if match:
+                return match.group().rstrip(".,;)")
             break
     return ""
 

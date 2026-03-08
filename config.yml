@@ -108,7 +108,9 @@ email_extraction:
   output:
     notes_dir: "notes/daily"
     send_summary_email: true
-    summary_email_to: "hudejun2002@gmail.com"
+    summary_email_to:
+      - "hudejun2002@gmail.com"
+      - "dj24@m.fudan.edu.cn"
 
 domain_deepdive:
   semantic_scholar:

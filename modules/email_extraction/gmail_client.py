@@ -109,11 +109,11 @@ def _extract_parts(payload: dict, html_parts: list, text_parts: list) -> None:
         _extract_parts(part, html_parts, text_parts)
 
 
-def send_summary_email(to: str, subject: str, html_content: str) -> None:
+def send_summary_email(to: list[str] | str, subject: str, html_content: str) -> None:
     """Send an HTML summary email via Gmail API."""
     service = _build_service()
     msg = MIMEMultipart("alternative")
-    msg["To"] = to
+    msg["To"] = ", ".join(to) if isinstance(to, list) else to
     msg["Subject"] = subject
     msg.attach(MIMEText(html_content, "html", "utf-8"))
     raw = base64.urlsafe_b64encode(msg.as_bytes()).decode("utf-8")

@@ -10,6 +10,7 @@ from shared.claude_client import ClaudeClient
 from modules.email_extraction.gmail_client import fetch_toc_emails, send_summary_email
 from modules.email_extraction.email_parser import parse_email
 from modules.email_extraction.abstract_fetcher import fetch_abstract
+from modules.email_extraction.scholarly_fetcher import fetch_paper_metadata
 from modules.email_extraction.claude_processor import process_article
 from modules.email_extraction.report_generator import (
     write_article_note,
@@ -103,15 +104,44 @@ def main():
             log.warning("No articles matched relevance keywords. Exiting.")
             sys.exit(0)
 
-    # Step 4: Optionally fetch web abstracts (only for filtered articles)
+    # Step 4: Fetch abstracts and DOIs (Semantic Scholar → web scrape → email fallback)
+    s2_tldrs = {}  # title → TLDR text from S2
     if proc_cfg.get("fetch_web_abstract", True):
         timeout = proc_cfg.get("web_fetch_timeout_seconds", 10)
+        s2_count, web_count = 0, 0
         for i, article in enumerate(all_articles_raw):
-            if article.url:
+            label = f"[{i+1}/{len(all_articles_raw)}]"
+
+            # Try Semantic Scholar first (returns abstract + DOI + TLDR)
+            s2 = fetch_paper_metadata(
+                doi=article.doi, title=article.title, timeout=timeout,
+            )
+
+            if s2["tldr"]:
+                s2_tldrs[article.title] = s2["tldr"]
+
+            if s2["abstract"]:
+                article.abstract_from_email = s2["abstract"]
+                s2_count += 1
+                log.info(f"  {label} S2 abstract: {article.title[:50]}")
+            elif article.url:
+                # Fall back to web scraping
                 fetched = fetch_abstract(article.url, timeout=timeout)
                 if fetched:
                     article.abstract_from_email = fetched
-                    log.info(f"  [{i+1}/{len(all_articles_raw)}] Fetched abstract for: {article.title[:50]}")
+                    web_count += 1
+                    log.info(f"  {label} Web abstract: {article.title[:50]}")
+                elif not article.abstract_from_email:
+                    log.warning(f"  {label} No abstract: {article.title[:50]}")
+
+            # Fill in DOI if missing
+            if not article.doi and s2["doi"]:
+                article.doi = s2["doi"]
+
+        log.info(
+            f"Abstracts: {s2_count} from S2, {web_count} from web, "
+            f"{len(all_articles_raw) - s2_count - web_count} from email/none"
+        )
 
     # After fetching abstracts, re-run keyword filter for articles that now have abstracts
     if keywords:
@@ -134,6 +164,7 @@ def main():
                 authors=article.authors,
                 pub_date="",
                 claude=claude,
+                tldr=s2_tldrs.get(article.title, ""),
             )
             processed.append(result)
         except Exception as e:
@@ -160,7 +191,8 @@ def main():
         html = generate_html_email(processed, week)
         to = out_cfg["summary_email_to"]
         subject = f"[Research Assistant] 本周文献摘要 {week}"
-        log.info(f"Sending summary email to {to}...")
+        recipients = ", ".join(to) if isinstance(to, list) else to
+        log.info(f"Sending summary email to {recipients}...")
         try:
             send_summary_email(to, subject, html)
             log.info("Summary email sent successfully")
