@@ -12,9 +12,7 @@ S2_BASE = "https://api.semanticscholar.org/graph/v1"
 S2_FIELDS = "abstract,externalIds,title,tldr"
 
 _api_key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY", "")
-# Paper endpoint: generous limit; Search endpoint: stricter limit
-_paper_limiter = RateLimiter(calls_per_second=0.9 if _api_key else 0.3)
-_search_limiter = RateLimiter(calls_per_second=0.3)  # search is always stricter
+_rate_limiter = RateLimiter(calls_per_second=0.5)  # shared across all S2 endpoints
 
 
 def _normalize(text: str) -> str:
@@ -62,7 +60,7 @@ def fetch_paper_metadata(doi: str = "", title: str = "", timeout: int = 10) -> d
 
 def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
     try:
-        _paper_limiter.wait()
+        _rate_limiter.wait()
         resp = requests.get(
             f"{S2_BASE}/paper/DOI:{doi}",
             params={"fields": S2_FIELDS},
@@ -80,7 +78,7 @@ def _lookup_by_doi(doi: str, headers: dict, timeout: int) -> dict:
 def _search_by_title(title: str, headers: dict, timeout: int) -> dict:
     for attempt in range(2):
         try:
-            _search_limiter.wait()
+            _rate_limiter.wait()
             resp = requests.get(
                 f"{S2_BASE}/paper/search",
                 params={"query": title[:200], "fields": S2_FIELDS, "limit": 3},
