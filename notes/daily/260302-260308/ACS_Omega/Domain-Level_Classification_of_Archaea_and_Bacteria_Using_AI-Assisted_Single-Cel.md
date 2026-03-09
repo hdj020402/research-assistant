@@ -1,11 +1,11 @@
 ---
 title: "Domain-Level Classification of Archaea and Bacteria Using AI-Assisted Single-Cell Raman Spectroscopy"
-title_zh: "使用AI辅助的单细胞拉曼光谱对古细菌和细菌进行域级分类"
+title_zh: "基于人工智能辅助的单细胞拉曼光谱法对古菌和细菌进行域级分类"
 journal: "ACS Omega"
 doi: "10.1021/acsomega.6c00460"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6Rux07OK6ZAjTnzDd4vP47wKRknhHrUt-2FbRQrWMa1ZWfL94tz-2Boasjlnilb6reuzjaT5bhsP0QPiuzVloo1t9W2NcrIWB9JAg1HOHUccmYbXYE-2FB3rqLUgzyAlSdTo5zorLViQXZH0MXKBMqJCyZVr4Z6a_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjkz9K9EJoOA-2FaKZL93tkFOG7xpC28TkeDCW5woVgp7hhOwnau8WXiqXGawkdkIzq67ca7PT6Nz0zHpjeggLUmYpP4sX7O-2F11SQspKKp53FWq0VPaE8WWxAkjbNbayNhoeJyFe0RZj-2FmC5wLAPCab8bWMewqkhuTbog7mMCDAU8qXPFCcViMm-2B-2FhrdXs8t0DVmELGucVYIZ-2FZcb9il8AXU8W0fhpe9NUufzi9GEOqvbYQ-3D"
 pub_date: ""
-tags: ["raman-spectroscopy", "microbial-classification", "machine-learning", "single-cell-analysis", "spectroscopy-ai"]
+tags: ["raman-spectroscopy", "microbial-classification", "machine-learning", "single-cell-analysis", "ai-assisted-detection"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -17,12 +17,12 @@ date_added: "2026-03-09"
 
 # Domain-Level Classification of Archaea and Bacteria Using AI-Assisted Single-Cell Raman Spectroscopy
 
-**使用AI辅助的单细胞拉曼光谱对古细菌和细菌进行域级分类**
+**基于人工智能辅助的单细胞拉曼光谱法对古菌和细菌进行域级分类**
 
 ## 精华总结
-利用人工智能辅助的单细胞拉曼光谱技术实现了古菌和细菌的域级分类，开发了新的机器学习模型用于微生物鉴别。
+利用人工智能辅助的单细胞拉曼光谱技术实现了古菌和细菌的域级分类，开发了基于光谱数据的智能分类模型，提高了微生物鉴定的准确性和效率。
 
-**关键词**: 单细胞拉曼光谱、人工智能分类、古菌、细菌、机器学习
+**关键词**: 单细胞拉曼光谱、人工智能分类、古菌识别、细菌鉴定、光谱学
 
 ## 摘要（英文）
 Nanako Kanno, Shinsuke Shigeto, et al. doi.org/10.1021/acsomega.6c00460 Publication Date (Web):March 3, 2026 Read Article

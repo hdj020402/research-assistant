@@ -5,7 +5,7 @@ journal: "ACS Central Science"
 doi: "10.1021/acscentsci.5c02014"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ5EJl4Ao2z0mfyamxHsp6xbROsbkjg4JQWJQij-2BwdxCq4FBPJNNliyRQuJVooeNsVYFviGj-2BR28-2FD4Frbj1CyUI5iJ1grTlvXJ8ywtfj-2BqZfCStMe9goGCXHFQLeXbRdUU3NB8xQMzPeL31gBbYg8CfadKE_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjucEgWtmoOXc0MdPo3rgCaKAXJ-2FMwQIG16qT6wYoeMQ5lv-2BOiHev3H3NAve-2FQ6Q7BWdDJTfXlqnXJ3PHNmhuiTAdiBm2MV-2FcTdnK9V-2BRNXGYGuqXWDNFGRjJRZQ57hLFGP-2FJZw8Aq2h2rDR1EmgZpXL8MQ1fYFv7e8djfQ-2FLbXSfnTk5Lfo-2FameMrxlfSd-2FMHhA3eQfU56iw-2B5TToV9-2F9ym2Jg3DmG1DZcKce79DWTRE-3D"
 pub_date: ""
-tags: ["retrosynthesis", "deep-learning", "synthesis-planning", "graph-neural-networks", "computer-aided-synthesis"]
+tags: ["retrosynthesis", "machine-learning", "organic-synthesis", "computational-chemistry", "reaction-planning"]
 ai_relevance: 5
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **计算机辅助逆向合成的高级策略**
 
 ## 精华总结
-本研究开发了计算机辅助逆合成分析的高级策略,通过深度学习和树搜索算法改进了合成路线规划的效率和准确性。该方法整合了分子图神经网络和启发式搜索,显著提升了多步骤合成设计的可行性。
+本研究开发了计算机辅助逆向合成的高级策略,提高了复杂分子合成路线的预测准确性和效率。通过整合启发式规则和机器学习方法,实现了对有机合成的智能化规划。
 
-**关键词**: 逆合成分析、深度学习、合成规划、分子图神经网络、树搜索算法
+**关键词**: 逆向合成、计算机辅助、机器学习、有机合成规划、合成策略
 
 ## 摘要（英文）
 Jihye Roh, Connor W. Coley, et al. doi.org/10.1021/acscentsci.5c02014 Publication Date (Web):March 5, 2026 Read Article

@@ -5,7 +5,7 @@ journal: "Journal of Chemical Information and Modeling"
 doi: "10.1021/acs.jcim.5c03062"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6qwd-2BbfgJamG4wIcrwJFnPVU0Kt6yn7IQ-2Bb8RVOgmVxfS73f6APjPx3BJWBy53hRFqwDH3U4gKQo3iYFP6iPZ8ZQXJnm8sr2-2BupbBCMHKW17QOXaQ6PUDWviINntZufFkFPeSRDrSkI93H4V53si7ad9sk_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjMiGhqYuNZSeljVi5kw6RDOwb5HTN1959abUlgudU81sChnIVYBqhIeptXXrPrpqgJ7H3j-2BTPIaBBmektYijGCIcZQI7K7o8rXXc7ihnURtd5Duar-2FR1h5fAWYQHpwxmTTb5as8zDRJ3hCDCm-2FKAySSEFoSNt3HS-2BrH-2FPRMNCygrXzb-2FP-2B-2FWGFGpFbIiJmuXD1z9JJJKOs-2FkFuKOfiTgRJITgBLHPCO4Xgq149e5juCU-3D"
 pub_date: ""
-tags: ["molecular-design", "language-models", "generative-ai", "cheminformatics", "deep-learning"]
+tags: ["molecular-design", "language-models", "inverse-design", "deep-learning", "generative-models"]
 ai_relevance: 5
 relevance: null
 innovation: null
@@ -20,7 +20,7 @@ date_added: "2026-03-09"
 **提高用于逆分子设计的化学语言转换器的保真度和多样性**
 
 ## 精华总结
-本研究提出了一个基于化学语言转换器的逆向分子设计框架,通过往返保真度指标诊断解码器引入的潜在空间漂移,并采用预测器引导的最小编辑修复策略来纠正无效结构。该框架在表面活性剂临界胶束浓度设计中实现了约90%的有效多样性分子生成,同时保持接近1%的目标性质误差,并展现了良好的可解释性。
+本研究提出了一种基于化学语言转换器的逆向分子设计框架，通过引入往返保真度指标量化解码器诱导的潜在空间漂移，并结合预测器引导的最小编辑修复策略来纠正无效结构。该框架在表面活性剂临界胶束浓度设计中展现了90%的有效多样性分子生成和接近1%的目标性质误差。
 
 **关键词**: 化学语言模型、逆向分子设计、转换器、分子生成、性质预测
 

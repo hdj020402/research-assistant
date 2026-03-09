@@ -5,7 +5,7 @@ journal: "Journal of Chemical Theory and Computation"
 doi: "10.1021/acs.jctc.5c01638"
 url: "https://app.acspubs.org/e/er?s=1913652004&lid=109586&pci=CACSR000013623915&elqTrackId=017814fc29fa461e9a6bf65d23801867&elq=51f4713da496490ea94be1416e307abc&elqaid=32172&elqat=1&elqak=8AF55C4D98404DCE0933CD5D9D557C4D8EC8DF669D1886211F10624EBC003E655BFD"
 pub_date: ""
-tags: ["machine-learning", "molecular-dynamics", "dimensionality-reduction", "protein-folding", "feature-engineering"]
+tags: ["machine-learning", "feature-compression", "molecular-dynamics", "protein-folding", "dimensionality-reduction"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **随机函数作为分子过程机器学习中的数据压缩器**
 
 ## 精华总结
-本研究表明随机非线性投影可用于压缩大型特征空间，加快计算速度且不会造成信息的实质性丧失。
+研究表明随机非线性投影可用于压缩大型特征空间，使计算速度加快而不会显著损失信息。该方法在蛋白质折叠分析中保留了原始高维特征空间的核心静态和动态信息。
 
-**关键词**: 随机投影、特征压缩、分子动力学、蛋白质折叠
+**关键词**: 特征压缩、随机投影、分子动力学模拟、蛋白质折叠、机器学习
 
 ## 摘要（英文）
 Machine learning (ML) is rapidly transforming the way molecular dynamics simulations are performed and analyzed from materials modeling to studies of protein folding and function. ML algorithms are often employed to learn low-dimensional representations of conformational landscapes and cluster trajectories into relevant metastable states. Most of these algorithms require the selection of a small number of features that describe the problem of interest. Although deep neural networks can tackle large numbers of input features, the training costs increase with input size, which makes the selection of a subset of features mandatory for most problems of practical interest. Here, we show that random nonlinear projections can be used to compress large feature spaces and make computations faster without a substantial loss of information. We describe an efficient way to produce random projections and then exemplify the general procedure for protein folding. For our test cases NTL9 and the double-norleucin variant of the villin headpiece, we find that random compression retains the core static and dynamic information of the original high-dimensional feature space, making trajectory analysis more robust.

@@ -1,11 +1,11 @@
 ---
 title: "Machine Learning-Enhanced Microfluidic Impedance Platform for Rare Cell Analysis"
-title_zh: "用于稀有细胞分析的机器学习增强型微流控阻抗平台"
+title_zh: "基于机器学习的微流控阻抗平台用于稀有细胞分析"
 journal: "Analytical Chemistry"
 doi: "10.1021/acs.analchem.5c06389"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6m9dwOKKpz9-2BWBhH0scpkFVYf-2Bg07apKqe9s5w2AXNKwdc-2F3gN2wWq-2Fku82aJX1paCdWC-2FNwRJXhG-2FJ3Srw2XQT5LhSXRcImFesZulfOMensnpfMHimUf8rqv2EPQgURAF5NnkFsp5dVt-2BZUZQIwnJUv0l_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjICV4qvQArAsWThJep5QI9va7wIKdZVjaEZp8TavinUVQ6KkkGY2xim0AXIjJBGiAE88lm-2Bo-2FHhpHi4zQxQg1pKvpxcVAZVLZCiIWwS7DbYGuxYzaj-2B3dcYa-2B9Mlt4tkqY6mP8pg-2BcFpAdMB6PGsW0vDlRH-2FIm84dZwFeIwFOOgLIztrLoKeAgPhLrBSqoliU3oCJ9fl1c-2FMnm5UjIJNTgr54xnykBVOxqIucPbuTHVI-3D"
 pub_date: ""
-tags: ["machine-learning", "microfluidics", "cell-analysis", "rare-cell-detection", "support-vector-machine"]
+tags: ["machine-learning", "microfluidics", "cell-analysis", "medical-diagnostics", "svm"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -17,12 +17,12 @@ date_added: "2026-03-09"
 
 # Machine Learning-Enhanced Microfluidic Impedance Platform for Rare Cell Analysis
 
-**用于稀有细胞分析的机器学习增强型微流控阻抗平台**
+**基于机器学习的微流控阻抗平台用于稀有细胞分析**
 
 ## 精华总结
-本研究建立了一个结合支持向量机学习策略的多频微流控阻抗芯片平台，用于准确检测和分析稀有癌细胞，在区分多种癌细胞系与白细胞方面达到99%以上的准确率。该无标记平台具有高检测可靠性和广泛应用潜力。
+本研究建立了一个结合支持向量机学习策略的多频率微流体阻抗流式细胞术平台,用于准确检测和区分稀有癌细胞,在癌细胞与白细胞的区分中达到99%以上的准确率。该无标记平台可在1-10%的低丰度条件下可靠检测稀有癌细胞,为稀有细胞表征提供了新的应用途径。
 
-**关键词**: 微流控阻抗、机器学习、稀有细胞分析、支持向量机、流式细胞术
+**关键词**: 微流体阻抗流式细胞术、支持向量机、机器学习、稀有细胞检测、癌细胞识别
 
 ## 摘要（英文）
 Rare cells, despite constituting only a small fraction of the population, play a critical role in health and disease. For instance, a minor subset of cancer cells can drive tumor initiation and progression. However, detecting and analyzing rare cells remain challenging due to their low abundance and the need for high-precision identification methods. Microfluidic impedance-based flow cytometry (μIFC) provides a label-free and highly informative approach for single-cell characterization. In this study, we present a multifrequency μIFC platform enhanced by a support vector machine (SVM) learning strategy to accurately distinguish rare cancer cells from white blood cells (WBCs). Our platform achieves over 99% accuracy in differentiating three cancer cell lines─MDA-MB-231 (breast), A549 (lung), and HeLa (cervical)─from human immortalized T lymphocytes (Jurkat) or peripheral blood mononuclear cells (PBMCs). To further improve detection reliability, we introduce a postprediction correction strategy that reduces false identification rates. Additionally, we demonstrate the platform's capability to detect rare cancer cells within WBC populations at concentrations of 1-10%, with results highly consistent with conventional flow cytometry. This work establishes a robust, label-free, machine learning-enhanced μIFC platform for rare cancer cell analysis, paving the way for broader applications in rare cell characterization.

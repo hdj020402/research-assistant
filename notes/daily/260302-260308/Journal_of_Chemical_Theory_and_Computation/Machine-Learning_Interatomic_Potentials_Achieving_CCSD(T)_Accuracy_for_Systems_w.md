@@ -5,7 +5,7 @@ journal: "Journal of Chemical Theory and Computation"
 doi: "10.1021/acs.jctc.5c02045"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6xT1Jb4aEyuRmDh55EbZE14dTqmOR82krA9g9pC0I3UU0kReZ7w12g40vsY0KAJjTkqMNtZsdKGsbcLXTcmqydD4peqUDM3IX-2F4bqe3anaqd-2FxfSm5kPyR9Uze1sHbpBd9xiODLjOWE1M0037WZBP4SLQL_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjW7AaooT4Kl7cFUzD7LieLOKneDI-2B5uQ7uNzJXnkKHZ3EdpDWVtkW9VFJn1b9jGoOWwwUdC-2FbbhgomsyeFpdsTo5kpCv862OJIezMqV5wm-2FjCd1uexewptPuEMD3ldXgrXJEE85Qim9MHRxaC-2FWSbxkZLv9CMnOjxYWsLKG3K-2FcjLTvwHIzMZXzuqItXcJrnq6pm5pdQg7Q73y28r7vvfvg-2B4MAhwzWKSDaWVn7Wo6-2B8-3D"
 pub_date: ""
-tags: ["machine-learning-potentials", "coupled-cluster-chemistry", "covalent-organic-frameworks", "van-der-waals-interactions", "interatomic-potentials"]
+tags: ["machine-learning", "interatomic-potentials", "coupled-cluster", "covalent-organic-frameworks", "van-der-waals"]
 ai_relevance: 5
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **达到CCSD(T)精度的机器学习原子间势能模型，适用于具有扩展共价网络和范德华相互作用的体系**
 
 ## 精华总结
-本研究提出了一种使用机器学习势能面（MLIPs）实现CCSD(T)精度的方法，适用于具有扩展共价网络和范德华相互作用的系统，为大规模原子模拟提供了实用的解决方案。
+一种训练机器学习原子间势能函数（MLIPs）以实现CCSD(T)精度的方法被开发出来，该方法适用于具有扩展共价网络和范德华相互作用的系统，为这类系统的大规模原子论模拟提供了实用的路线。
 
-**关键词**: 机器学习势能面、CCSD(T)精度、共价有机框架、范德华相互作用、Δ学习方法
+**关键词**: 机器学习势能函数、CCSD(T)精度、共价有机框架、范德华相互作用、Δ-学习方法
 
 ## 摘要（英文）
 Machine-learning interatomic potentials (MLIPs) enable large-scale atomistic simulations at moderate computational cost while retaining ab initio accuracy. In recent years, MLIPs trained on coupled-cluster data─particularly CCSD(T), which includes single, double, and perturbative triple excitations─have emerged as a promising route to achieve chemical accuracy (1 kcal/mol) beyond the limits of density functional theory (DFT) and to incorporate nonempirical van der Waals (vdW) interactions. Most existing approaches are, however, still not straightforwardly applicable for systems with extended covalent networks such as covalent organic frameworks (COFs) due to the limited availability of CCSD(T) under periodic boundary conditions. Here we present a methodology to train MLIPs with CCSD(T) accuracy for systems with extended covalent networks. The approach is based on the Δ-learning method with a dispersion-corrected tight-binding baseline and an MLIP trained on the differences of the target CCSD(T) energies from the baseline. This Δ-learning strategy enables training on compact molecular fragments while preserving transferability toward the periodic systems. Dispersion interactions are accounted for by including vdW-bound multimers in the training set, and the combination with a vdW-aware tight-binding baseline allows the formally local MLIP to attain CCSD(T)-level accuracy even for systems dominated by long-range vdW forces. The resulting potential yields root-mean-square energy errors below 0.4 meV/atom on both training and test sets and reproduces electronic total atomization energies, bond lengths, harmonic vibrational frequencies, and intermolecular interaction energies for benchmark molecular systems. We apply the method to a prototypical quasi-two-dimensional covalent organic framework (COF) composed of carbon and hydrogen. The COF structure, interlayer binding energies, and hydrogen absorption are analyzed at CCSD(T) accuracy. Overall, the developed methodology opens a practical route to large-scale atomistic simulations for systems with extended covalent networks and vdW interactions with chemical accuracy.

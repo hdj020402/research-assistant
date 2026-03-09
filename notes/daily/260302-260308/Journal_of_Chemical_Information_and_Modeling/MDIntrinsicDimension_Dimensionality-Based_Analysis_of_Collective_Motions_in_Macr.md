@@ -5,7 +5,7 @@ journal: "Journal of Chemical Information and Modeling"
 doi: "10.1021/acs.jcim.5c02716"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6qwd-2BbfgJamG4wIcrwJFnPFfeHtP5KW830HGm8QaNSP4cZ03Z7emEFq6FEV8Z6GprJ6C6dxUGbwLUoart-2F1p-2BLiEIcsybtsdcDOISlL1vp31ImhZLmynSnrb9z-2FPWwSoVnj-2FrxAAKJOv-2BurNarhzvzvrVC_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjhXgm129QW7OjPkMVv5vigIMEuG-2FfF497eI2FviJGe-2FDjjO9MD0Eh7xaZBZ4hbuJTF6KwpQO9fPtwAqW81e2UFKRM3qHxZtHrQQrIvN1sMQlcMWH4oFA-2BvekTtoqnWLMHcCtWaeTxyQY9FoIwDyo-2F3Q8UicosntKycx-2F2IIolcrDCR9TlUnQq0JUHIylT9EkA4MIpCrYYlPJNgB2rjgGOkLmjr4bflFKbSpzFW3bzWQI-3D"
 pub_date: ""
-tags: ["molecular-dynamics", "dimensionality-reduction", "structural-analysis", "python-package", "trajectory-analysis"]
+tags: ["molecular-dynamics", "dimensionality-reduction", "structural-analysis", "python-tools", "computational-chemistry"]
 ai_relevance: 3
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **MDIntrinsicDimension: 基于分子动力学轨迹的大分子集体运动的基于维度的分析**
 
 ## 精华总结
-MDIntrinsicDimension是一个开源Python包，通过结合旋转和平移不变的分子投影与最先进的估计器，直接从分子动力学轨迹中估计本征维数，该方法通过突出空间局部柔性、区分结构片段和识别亚稳态构型，补充了传统几何描述符。
+MDIntrinsicDimension是一个开源Python工具包，通过结合旋转和平移不变的分子投影与先进的估计方法，直接从分子动力学轨迹中估计本征维数，可以突出空间局部灵活性、区分结构片段和识别亚稳态构象。
 
-**关键词**: 本征维数、分子动力学、数据降维、构象分析、生物大分子
+**关键词**: 分子动力学模拟、本征维数、生物分子结构、维数估计、构象分析
 
 ## 摘要（英文）
 Molecular dynamics (MD) simulations provide atomistic insights into the structure, dynamics, and function of biomolecules by generating time-resolved, high-dimensional trajectories. Analyzing such data benefits from estimating the minimal number of variables required to describe the explored conformational manifold, known as the intrinsic dimension (ID). We present MDIntrinsicDimension, an open-source Python package that estimates ID directly from MD trajectories by combining rotation- and translation-invariant molecular projections with state-of-the-art estimators. The package provides three complementary analysis modes: whole-molecule ID, sliding windows along the sequence, and per-secondary-structure elements. It computes both overall ID (a single summary value) and instantaneous, time-resolved ID that can reveal transitions and heterogeneity over time. We illustrate the approach on fast folding-unfolding trajectories from the DESRES dataset, demonstrating that ID complements conventional geometric descriptors by highlighting spatially localized flexibility, differentiating structural segments, and identifying a metastable configuration.

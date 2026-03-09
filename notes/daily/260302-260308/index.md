@@ -1,11 +1,11 @@
 ---
 week: "260302-260308"
 type: weekly-index
-article_count: 75
+article_count: 76
 ---
 # 本周文献 (260302-260308)
 
-共收录 **75** 篇文章。
+共收录 **76** 篇文章。
 
 ```dataview
 TABLE title, journal, ai_relevance, read_status, tags
