@@ -11,6 +11,7 @@ from modules.email_extraction.gmail_client import fetch_toc_emails, send_summary
 from modules.email_extraction.email_parser import parse_email
 from modules.email_extraction.abstract_fetcher import fetch_abstract
 from modules.email_extraction.scholarly_fetcher import fetch_paper_metadata
+from modules.email_extraction.translator import translate
 from modules.email_extraction.claude_processor import process_article
 from modules.email_extraction.report_generator import (
     write_article_note,
@@ -149,11 +150,26 @@ def main():
         if skipped2:
             log.info(f"Post-abstract keyword filter: {skipped2} more skipped")
 
-    # Step 5: Claude processing
+    # Step 5: Translate + Claude analysis
     processed = []
-    log.info(f"Processing {len(all_articles_raw)} articles with Claude Haiku...")
+    log.info(f"Processing {len(all_articles_raw)} articles...")
     for i, article in enumerate(all_articles_raw):
-        log.info(f"  [{i+1}/{len(all_articles_raw)}] Processing: {article.title[:60]}")
+        label = f"[{i+1}/{len(all_articles_raw)}]"
+        log.info(f"  {label} {article.title[:60]}")
+
+        # Translate title and abstract (DeepL → Google → Baidu fallback)
+        title_zh = translate(article.title)
+        abstract_zh = ""
+        if article.abstract_from_email:
+            abstract_zh = translate(article.abstract_from_email)
+
+        if title_zh and abstract_zh:
+            log.info(f"    Translated (API)")
+        elif title_zh or abstract_zh:
+            log.info(f"    Partially translated (API), Haiku will complete")
+        else:
+            log.info(f"    Translation API unavailable, Haiku will translate")
+
         try:
             result = process_article(
                 title=article.title,
@@ -165,10 +181,12 @@ def main():
                 pub_date="",
                 claude=claude,
                 tldr=s2_tldrs.get(article.title, ""),
+                title_zh=title_zh,
+                abstract_zh=abstract_zh,
             )
             processed.append(result)
         except Exception as e:
-            log.error(f"  Failed to process article: {e}")
+            log.error(f"    Failed to process article: {e}")
 
     log.info(f"Successfully processed {len(processed)} articles")
 

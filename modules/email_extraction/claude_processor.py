@@ -1,9 +1,8 @@
-"""Claude Haiku processor: translate abstracts, generate tags, score relevance."""
+"""Claude Haiku processor: generate highlights, tags, score relevance."""
 import json
 import logging
 import re
 from dataclasses import dataclass
-from typing import Optional
 from shared.claude_client import ClaudeClient
 from shared.rate_limiter import RateLimiter
 
@@ -43,14 +42,18 @@ def process_article(
     pub_date: str,
     claude: ClaudeClient,
     tldr: str = "",
+    title_zh: str = "",
+    abstract_zh: str = "",
 ) -> ProcessedArticle:
     """
-    Use Claude Haiku to:
-    1. Translate abstract to Chinese
-    2. Generate 3-5 topic tags
-    3. Score AI-for-Chemistry relevance (1-5)
+    Use Claude Haiku to analyze a paper and generate highlights, tags, relevance.
+
+    If title_zh/abstract_zh are provided (from translation API), Haiku only does
+    analysis. Otherwise falls back to full translation + analysis.
     """
     _rate_limiter.wait()
+
+    has_translation = bool(title_zh and abstract_zh)
 
     if tldr:
         highlights_instruction = (
@@ -67,7 +70,22 @@ def process_article(
         )
         tldr_section = ""
 
-    prompt = f"""Analyze this chemistry paper abstract and return a JSON object with these exact keys:
+    if has_translation:
+        # Analysis only — translations already provided
+        prompt = f"""Analyze this chemistry paper abstract and return a JSON object with these exact keys:
+{highlights_instruction}
+- "tags": array of 3-5 lowercase English topic tags (e.g. ["machine-learning", "catalyst-design"])
+- "ai_relevance": integer 1-5 scoring relevance to "AI for Chemistry" research
+  (1=no AI, 2=minor computational, 3=ML/DL applied, 4=significant AI contribution, 5=core AI+Chemistry)
+
+Paper title: {title}
+Journal: {journal}
+Abstract: {abstract if abstract else "No abstract available."}{tldr_section}
+
+Respond with JSON only."""
+    else:
+        # Full mode — Haiku also handles translation (fallback)
+        prompt = f"""Analyze this chemistry paper abstract and return a JSON object with these exact keys:
 - "title_zh": Chinese translation of the paper title
 - "abstract_zh": Complete Chinese translation of the abstract (translate fully, do not summarize or truncate)
 {highlights_instruction}
@@ -82,16 +100,24 @@ Abstract: {abstract if abstract else "No abstract available."}{tldr_section}
 Respond with JSON only."""
 
     result = claude.haiku(prompt, system=SYSTEM_PROMPT)
-
-    # Parse JSON response
-    abstract_zh, tags, ai_relevance, title_zh, highlights = _parse_response(result, abstract)
+    parsed = _parse_response(result, has_translation)
 
     # Retry once on parse failure
-    if abstract_zh == "翻译失败":
+    if parsed is None:
         log.warning(f"Claude parse failed, retrying: {title[:50]}")
         _rate_limiter.wait()
         result = claude.haiku(prompt, system=SYSTEM_PROMPT)
-        abstract_zh, tags, ai_relevance, title_zh, highlights = _parse_response(result, abstract)
+        parsed = _parse_response(result, has_translation)
+
+    if parsed:
+        tags, ai_relevance, highlights = parsed["tags"], parsed["ai_relevance"], parsed["highlights"]
+        if not has_translation:
+            title_zh = parsed.get("title_zh", "")
+            abstract_zh = parsed.get("abstract_zh", "翻译失败")
+    else:
+        tags, ai_relevance, highlights = [], 1, ""
+        if not has_translation:
+            abstract_zh = "翻译失败"
 
     return ProcessedArticle(
         title=title,
@@ -109,24 +135,29 @@ Respond with JSON only."""
     )
 
 
-def _parse_response(
-    response: str, original_abstract: str
-) -> tuple[str, list[str], int, str, str]:
-    """Parse Claude's JSON response, with fallback values on failure."""
+def _parse_response(response: str, analysis_only: bool) -> dict | None:
+    """Parse Claude's JSON response. Returns dict or None on failure."""
     try:
-        # Strip markdown code blocks if present
         cleaned = re.sub(r"```(?:json)?\s*|\s*```", "", response.strip())
         data = json.loads(cleaned)
-        abstract_zh = data.get("abstract_zh", "翻译失败")
+
         tags = data.get("tags", [])
         if not isinstance(tags, list):
             tags = []
         tags = [str(t).lower().strip() for t in tags[:5]]
+
         ai_relevance = int(data.get("ai_relevance", 1))
         ai_relevance = max(1, min(5, ai_relevance))
-        title_zh = data.get("title_zh", "")
+
         highlights = data.get("highlights", "")
-        return abstract_zh, tags, ai_relevance, title_zh, highlights
+
+        result = {"tags": tags, "ai_relevance": ai_relevance, "highlights": highlights}
+
+        if not analysis_only:
+            result["title_zh"] = data.get("title_zh", "")
+            result["abstract_zh"] = data.get("abstract_zh", "翻译失败")
+
+        return result
     except Exception as e:
         log.warning(f"Failed to parse Claude response: {e}\nRaw: {response[:200]}")
-        return "翻译失败", [], 1, "", ""
+        return None
