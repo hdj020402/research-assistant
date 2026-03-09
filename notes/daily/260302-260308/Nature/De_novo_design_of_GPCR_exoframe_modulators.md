@@ -5,7 +5,7 @@ journal: "Nature"
 doi: "10.1038/s41586-025-09957-1"
 url: "https://links.springernature.com/f/a/kUrfhAlczLLzcyobQfzCnA~~/AABE5hA~/R87QaY9F431Ygm11sUAZF-L7hFqkHx3x4ewZ2eVCtA-ew3iRMDnoGQElVb-LjYJl453kkEqh4lGk-Shazv5STPr4zNa354AQmvgZGreKqOUiA31KVNUkC9PxdVYJCwaKsr9S72ZXYEeNpPGdBhu66xwBzursdw5UD2jqEuhvlkEirbURn6Hsdc5MOA0s-ku1Xelpgh2VgHo0DGPefKMMLqXUUl8QhJBJxXg-4uIV_GzWLO2Hr1PpBniVujzZhI-tzDon8rhrKMWi3MzHFWTcQS6zjrpEnPDk67Nwok0ba4I~"
 pub_date: ""
-tags: ["deep-learning", "protein-design", "gpcr-modulators", "ai-assisted-drug-discovery", "membrane-proteins"]
+tags: ["protein-design", "deep-learning", "gpcr-modulation", "ai-driven-discovery"]
 ai_relevance: 5
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **GPCR外框架调制器的从头设计**
 
 ## 精华总结
-本研究介绍了靶向G蛋白偶联受体跨膜域的GEMs蛋白，作为强有力的变构调节剂，并突出了基于深度学习方法在功能导向膜蛋白设计中的潜力。
+通过深度学习的蛋白质设计方法，开发了靶向GPCR跨膜域的新型变构调节剂(GEMs)，实现了多样化的药理功能，包括激动剂型正变构调节和偏向性调节。
 
-**关键词**: GPCR设计、深度学习、变构调节、膜蛋白、药物发现
+**关键词**: GPCR设计、深度学习、蛋白质工程、变构调节、跨膜蛋白
 
 ## 摘要（英文）
 G-protein-coupled receptors (GPCRs) are important therapeutic targets and have been targeted mainly through their orthosteric site, where the endogenous agonist binds . However, allosteric modulation has emerged as a promising and innovative strategy in the realm of GPCR drug discovery . Here, drawing inspiration from the natural regulation of GPCRs by transmembrane proteins, we have developed GPCR exoframe modulators (GEMs), de novo designed proteins that specifically target the transmembrane domain of GPCRs. Utilizing a hallucination-like design approach, we crafted GEMs with three strategic structural prompts to achieve the desired binding modes. We selected the dopamine D 1 receptor as a prototypical model and systematically investigated four GEMs. Structural studies and functional assays revealed that these GEMs bind to the transmembrane domains and function as diverse allosteric modulators, including agonist-positive allosteric modulator, negative allosteric modulator and biased allosteric modulator. The ago-PAM GEM restores the activity of various D 1 receptor loss-of-function mutants, suggesting a promising therapeutic target for GPCR-related disorders. Our work introduces GEMs that target the transmembrane domain as potent agents for allosteric GPCR modulation and highlights the potential of deep learning-based approaches in the design of function-oriented membrane proteins.

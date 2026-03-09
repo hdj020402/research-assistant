@@ -5,8 +5,8 @@ journal: "Analytical Chemistry"
 doi: "10.1021/acs.analchem.5c07876"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6m9dwOKKpz9-2BWBhH0scpkFVwVDr5pL92q4nRGGa4xOkjfD-2FeJcXy4dwYFFCSgSOYL07sIY-2B1ssY-2B3rIfYiLXVXOwHuHjiwG6AHJCfhQ8WSp3oeqrKDCF-2BaCLColYR3FNuiD26s728XrienMY1UtVIog7gX_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjICV4qvQArAsWThJep5QI9va7wIKdZVjaEZp8TavinUW1RIJltQawh-2Bfvvsd-2F8JuJDEbLMaGXwsvgz22gxhU39UTzU3Wj-2FrPa2aujgj0eMWe-2B-2FUeV55aktvNKpe-2F2SQgckN4gVq6lRbvetahpm0Nuzs5CYSXpX2m4GJSMWYR3yKUMyxc6kWpiM8SA4ENVDx5V4P20FsgSgvRbOdc8PBZ96sYcLGZTynYEfWTgoHw47tc-3D"
 pub_date: ""
-tags: ["molecular-dynamics", "protein-structure", "interface-chemistry", "spectroscopy", "computational-chemistry"]
-ai_relevance: 2
+tags: ["molecular-dynamics", "protein-structure", "spectroscopy", "computational-chemistry", "interface-chemistry"]
+ai_relevance: 3
 relevance: null
 innovation: null
 methods: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **阐明静电相互作用对埋藏的固/液界面蛋白质结构的影响: 与实验，模拟，同位素标记和光谱计算的结合研究**
 
 ## 精华总结
-通过结合和频生成振动光谱、同位素标记、分子动力学模拟和哈密顿谱计算等多种手段，系统阐明了蛋白质GB1在APTES自组装单层表面的构象和取向，揭示了静电相互作用对埋藏固液界面蛋白质结构的主导作用。该整合方法为原位解析界面蛋白质结构和功能提供了新的研究思路。
+本研究通过结合SFG光谱、同位素标记、分子动力学模拟和哈密顿谱计算等多种方法，系统研究了蛋白质GB1在APTES自组装单层表面的吸附构象和取向，揭示了静电相互作用对buried固液界面蛋白质结构的主导作用。该整合方法为原位解析界面蛋白质结构和功能提供了强有力的技术手段。
 
-**关键词**: 蛋白质结构、固液界面、分子动力学模拟、和频生成光谱、静电相互作用
+**关键词**: 蛋白质吸附、固液界面、分子动力学模拟、静电相互作用、SFG光谱
 
 ## 摘要（英文）
 Protein structures and interactions at buried solid/liquid interfaces are critical for applications in biosensors, biomedical devices, and antifouling coatings. Here, we investigated the conformations and orientations of wild-type (WT) and mutant (MT) protein GB1s adsorbed onto a (3-aminopropyl)triethoxysilane (APTES) self-assembled monolayer (SAM) surface using a combined approach of sum frequency generation (SFG) vibrational spectroscopy, isotope labeling, atomistic molecular dynamics (MD) simulations, and Hamiltonian spectral calculations. Our results revealed that WT GB1 and MT GB1 adopt similar structures on the APTES surface due to dominant electrostatic interactions, in contrast to their distinct structures at graphene and polystyrene interfaces where π-π interactions are significant. Here, the C-terminal β-sheet of protein GB1 predominantly interacts with the positively charged APTES surface, as evidenced by MD simulations and SFG spectra matching. Isotope labeling enhances structural elucidation by providing additional independently measured parameters without altering protein conformation. The study demonstrates the power of this integrative method for resolving protein structures at interfaces in situ, contributing to our understanding of interfacial protein behavior and function.

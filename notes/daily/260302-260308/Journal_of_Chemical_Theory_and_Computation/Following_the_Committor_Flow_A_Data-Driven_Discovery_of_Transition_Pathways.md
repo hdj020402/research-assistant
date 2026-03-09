@@ -5,7 +5,7 @@ journal: "Journal of Chemical Theory and Computation"
 doi: "10.1021/acs.jctc.6c00007"
 url: "https://app.acspubs.org/e/er?s=1913652004&lid=109587&pci=CACSR000013623915&elqTrackId=61dd119f148f43eb8d86f8310108bd01&elq=51f4713da496490ea94be1416e307abc&elqaid=32172&elqat=1&elqak=8AF5B87095763DF70F3ADD6AB06A791F2283DF669D1886211F10624EBC003E655BFD"
 pub_date: ""
-tags: ["neural-networks", "molecular-dynamics", "transition-pathways", "rare-events", "reaction-mechanisms"]
+tags: ["machine-learning", "molecular-dynamics", "transition-pathways", "neural-networks", "rare-events"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **遵循提交者流: 数据驱动的过渡路径发现**
 
 ## 精华总结
-本工作提出了一个迭代框架来推断承诺子函数，随后识别最相关的过渡路径，并在二维模型势、肽构象转变、Diels-Alder反应和Trp-cage可逆折叠等基准系统上证明了该方法的有效性。
+本研究提出了一个迭代框架来推断承诺函数(committor)并识别最相关的转变通路,通过训练神经网络近似承诺概率,从而实现对分子系统罕见事件和反应机制的数据驱动发现。该方法在二维模型势能、肽构象转变、Diels-Alder反应和Trp-cage蛋白折叠等基准体系上验证了其有效性。
 
-**关键词**: 承诺子函数、过渡路径、神经网络、分子动力学、反应机制
+**关键词**: 转变通路、承诺函数、神经网络、稀有事件取样、反应速率常数
 
 ## 摘要（英文）
 The discovery of transition pathways to unravel distinct reaction mechanisms and, in general, rare events that occur in molecular systems is still a challenge. Recent advances have focused on analyzing the transition-path ensemble using the committor probability, widely regarded as the most informative one-dimensional reaction coordinate. Consistency between transition pathways and the committor function is essential for accurate mechanistic insight. In this work, we propose an iterative framework to infer the committor and, subsequently, to identify the most relevant transition pathways. Starting from an initial guess for the transition path, we generate biased sampling, from which we train a neural network to approximate the committor probability. From this learned committor, we extract dominant transition channels as discretized strings lying on isocommittor surfaces. These pathways are then used to enhance sampling and iteratively refine both the committor and transition paths until convergence. The resulting committor enables accurate estimation of the reaction rate constant. We demonstrate the effectiveness of our approach on benchmark systems, including a two-dimensional model potential, peptide conformational transitions, a Diels-Alder reaction, and the reversible folding of the Trp-cage.

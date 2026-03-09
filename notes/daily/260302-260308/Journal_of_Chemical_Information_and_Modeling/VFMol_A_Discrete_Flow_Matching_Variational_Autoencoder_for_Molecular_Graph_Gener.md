@@ -5,7 +5,7 @@ journal: "Journal of Chemical Information and Modeling"
 doi: "10.1021/acs.jcim.5c03005"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6qwd-2BbfgJamG4wIcrwJFnPw1cSAUW80S4U4hZAL2i-2FBmZiaP5bfa46Vdwhnh955b7NkG1hRFG8ByHx1Y839YbYzpEbiP6OuhgmfvCHFXZZBuQCb6v9-2BaZqbZfGX1Y2e6kg3CbzLx1RGBIzxcdhLmZCNgsy_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjhXgm129QW7OjPkMVv5vigIMEuG-2FfF497eI2FviJGe-2FBpU59g7iZbF5MtF7FsdepEh-2FaM9I01XVcw4Q8J30NAHRcbjyy1cLD4Cnb-2BjAE7KQOCQIZ6rmT0iPze5Dz1Tt19TBXPeI7yyxMqaCbobZvtrDjXw8PcHGzjze7N0AoieoM9GIPfL1f2qWNtUCyljb6aHDNSUObT5qIX-2BMDeOClBqGLA2m0LPFt6YpNJgEeI0uc-3D"
 pub_date: ""
-tags: ["molecular-generation", "variational-autoencoder", "flow-matching", "deep-learning", "drug-discovery"]
+tags: ["molecular-generation", "variational-autoencoder", "flow-matching", "drug-discovery", "conditional-generation"]
 ai_relevance: 5
 relevance: null
 innovation: null
@@ -20,7 +20,7 @@ date_added: "2026-03-09"
 **VFMol: 用于分子图生成的离散流匹配变分自动编码器**
 
 ## 精华总结
-本工作提出VFMol框架，创新性地结合了个性化VAE隐空间建模与离散流匹配的高效采样机制，引入基于KAN和无分类器引导的轻量级性质引导框架，实现了无需辅助性质预测器的条件生成。
+本工作提出VFMol框架，将个性化VAE潜在空间建模与离散空间中DFM的高效逐步采样机制相结合，并引入基于KAN和无分类器引导的轻量级性质引导框架，实现无需辅助性质预测器的条件生成。
 
 **关键词**: 分子图生成、变分自编码器、离散流匹配、药物发现、条件生成
 

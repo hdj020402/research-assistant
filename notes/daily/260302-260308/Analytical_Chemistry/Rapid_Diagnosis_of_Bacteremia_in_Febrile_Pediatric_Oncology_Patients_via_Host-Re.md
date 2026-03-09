@@ -1,11 +1,11 @@
 ---
 title: "Rapid Diagnosis of Bacteremia in Febrile Pediatric Oncology Patients via Host-Response Infrared Spectroscopy of Blood and Machine Learning"
-title_zh: "通过血液的宿主反应红外光谱和机器学习快速诊断发热的儿科肿瘤患者的菌血症"
+title_zh: "基于血液宿主反应红外光谱与机器学习的发热肿瘤患儿菌血症快速诊断"
 journal: "Analytical Chemistry"
 doi: "10.1021/acs.analchem.5c07862"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6m9dwOKKpz9-2BWBhH0scpkFm8wRdh4FOQhkgfxrpP0t9-2BWBEELJqOXlK1RYlc8IjFMBrjMD76oCqg5-2BodEEknN3DoE4X8YqWMY7xdCxbia0G7EdmJ4VQvdSuFiB91vj8xOhV5FHP5dS2YUvSt7EuYs2KSa9_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjICV4qvQArAsWThJep5QI9va7wIKdZVjaEZp8TavinUUBpGflFFniswx5EZRyi6J0jkoCNOf6yrR-2F5TO-2BIyz1dbU7QyoPLWZxY4ABy60STQ3xaj1eJZWvT6Mc4550dhn7vFSkgRVZEtvN6413StCeLpVhqgcGmbqEI-2FTVfkZFPdQg6YrxtR0KXLAHHGfyCTvuiXDaQHuofiOPyp2nGj7t83qekDEE-2FqRJdY8mq8PEftg-3D"
 pub_date: ""
-tags: ["machine-learning", "infrared-spectroscopy", "clinical-diagnostics", "metabolic-profiling", "antimicrobial-resistance"]
+tags: ["machine-learning", "diagnostic-platform", "spectroscopy-analysis", "clinical-decision-support", "antimicrobial-resistance"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -17,12 +17,12 @@ date_added: "2026-03-09"
 
 # Rapid Diagnosis of Bacteremia in Febrile Pediatric Oncology Patients via Host-Response Infrared Spectroscopy of Blood and Machine Learning
 
-**通过血液的宿主反应红外光谱和机器学习快速诊断发热的儿科肿瘤患者的菌血症**
+**基于血液宿主反应红外光谱与机器学习的发热肿瘤患儿菌血症快速诊断**
 
 ## 精华总结
-该研究利用傅里叶变换红外光谱技术结合机器学习算法，在不到1小时内快速诊断儿童血液感染，准确率达94.5%，为抗生素的合理使用和防控抗菌素耐药性提供了强大的分析工具。
+该研究开发了一种基于傅里叶变换红外光谱和机器学习的快速诊断方法，能够在1小时内通过白细胞的免疫代谢指纹识别菌血症，准确率达94.5%，有助于指导抗生素的合理使用和对抗抗药性威胁。
 
-**关键词**: 傅里叶变换红外光谱、机器学习、菌血症诊断、白细胞代谢指纹、抗菌素耐药性
+**关键词**: 傅里叶变换红外光谱、机器学习、菌血症诊断、白细胞分析、抗生素耐药性
 
 ## 摘要（英文）
 Bacteremia is a life-threatening complication and a leading cause of sepsis and septic shock in patients. Conventional diagnostic methods, such as blood culture, remain the clinical gold standard but require 24-72 h, often necessitating the empirical use of broad-spectrum antibiotics, which significantly contribute to the development and spread of antimicrobial resistance (AMR). We hypothesized that the host immune system mounts a specific, detectable systemic metabolic response to bloodstream infection, biochemically distinct from that elicited by focal bacterial infection (FBI) or viral etiologies. This study presents a rapid (<1 h), objective, and culture-independent diagnostic method for bacteremia based on host-response profiling using Fourier-transform infrared (FTIR) spectroscopy of white blood cells (WBCs). Blood samples from 410 pediatric oncology patients were clinically categorized into 71 bacteremia cases, 75 FBI, 157 viral infections, and 107 afebrile controls. WBCs were analyzed using FTIR spectroscopy to capture immune-metabolic fingerprints. Spectral profiles were classified using Logistic Regression with Principal Component Analysis (PCA) feature vectors and Log-Likelihood Ratio decision logic to differentiate bacteremia. The FTIR + Machine Learning (ML) platform successfully resolved the subtle biochemical differences, achieving 94.5% accuracy, 96.5% sensitivity, and 87.8% specificity in diagnosing bacteremia from all other categories combined (FBI, viral, and control). Importantly, the platform maintained high diagnostic performance, achieving 94.6% accuracy in distinguishing bacteremia from the FBI. This approach provides early, targeted diagnostic information that can support clinical decision-making, offering a powerful analytical tool to guide antibiotic stewardship and combat the global threat of AMR in this vulnerable population.

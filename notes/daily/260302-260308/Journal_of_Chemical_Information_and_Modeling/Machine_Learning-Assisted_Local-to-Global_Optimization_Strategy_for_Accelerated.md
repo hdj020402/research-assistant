@@ -5,7 +5,7 @@ journal: "Journal of Chemical Information and Modeling"
 doi: "10.1021/acs.jcim.5c02782"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6qwd-2BbfgJamG4wIcrwJFnPG3-2BQ4gRxe8fpv9hu0OMvCYjBOPoo9G0uWRYFYOfTyCNj7VOG5X30vBrDhZA2sXh3ir-2BrBJQMZ3CGzSdDzEab0-2F1q7Q42sBQ2PvfaJOhibRzdFVEgFQzzx2quxa5TB4LNSCj0_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjhXgm129QW7OjPkMVv5vigIMEuG-2FfF497eI2FviJGe-2FA7LizuutzoTA8XMxhzmfIP1WrSjPBP5tETDyACFW2jzsiUyiMJvsNMJPuXYf2HT2Iltg9YteF-2FnHpYB-2B54gVXnnWShe-2BqEkXmiGUr4YzOFsIVrODq4uZNawGMHgKgfLO8VPht0ujoLCYnt74l-2FAAd7qQkqaBqtQ9NY-2FiYqhAbHHy3ncsTyrIRcmAi9BUOLrCQ-3D"
 pub_date: ""
-tags: ["machine-learning", "molecular-clusters", "structure-prediction", "deep-learning", "optimization"]
+tags: ["machine-learning", "molecular-clusters", "structure-prediction", "deep-learning", "computational-chemistry"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **机器学习辅助的加速分子簇结构预测的局部到全局优化策略**
 
 ## 精华总结
-LOGOS方法利用深度学习算法来理解分子团簇内的复杂模式，并以最小的计算成本和最小的化学准确性损失高效地预测子团簇。
+LOGOS方法利用深度学习算法理解分子团簇中的复杂模式，能够以最小的计算成本高效预测子团簇，同时保持化学准确性。
 
-**关键词**: 机器学习、分子团簇结构预测、深度学习、势能面、分子静电势
+**关键词**: 机器学习、分子团簇结构预测、深度学习、势能面、分子优化
 
 ## 摘要（英文）
 We present a machine learning-assisted local-to-global optimization strategy (LOGOS) for predicting stable molecular cluster structures on potential energy surfaces (PESs). This model facilitates the construction of molecular clusters by identifying localized patterns using deep learning, thereby enhancing the structure-building process. LOGOS predicts new plausible binding sites for a parent structure, and the geometry-optimized daughter structure is subsequently generated in the molecular electrostatic potential (MESP)-topography feature space. This approach is benchmarked by building various ground-state clusters of a prototype (CO2)n with n < 30, which are well corroborated by the minimum-energy structures reported in the literature. Therefore, the LOGOS approach holds great promise for accelerating the structure search and prediction of large molecular clusters, guided by the learned topology of smaller clusters. Overall, LOGOS provides a practical solution for efficiently identifying energetically favorable cluster structures in a hierarchical manner. The LOGOS approach, leveraging deep learning algorithms, helps to understand complex patterns within molecular clusters and efficiently predict daughter clusters with minimal computational cost and minimal loss of chemical accuracy.

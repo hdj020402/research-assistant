@@ -1,11 +1,11 @@
 ---
 title: "Collective intelligence for AI-assisted chemical synthesis"
-title_zh: "人工智能辅助化学合成的集体智能"
+title_zh: "面向人工智能辅助化学合成的集体智慧"
 journal: "Nature"
 doi: "10.1038/s41586-026-10131-4"
 url: "https://links.springernature.com/f/a/pqVqR_7gGOjlfhCiCiz-fw~~/AABE5hA~/R87QaY9F431Ygm11sUAZF-L7hFqkHx3x4ewZ2eVCtA_p1VGTrf_oXZn0fViP0jcfclf7-igc_rPn7zZoAMAtUUMPc9priDNSKkHdmE0hKjbStMmGIHUopXQ311s0KU5PYCGoQnTZgPTILblzrAwbgVtlW4f_dvwL4m1nWSUcyXMGJLavMGOFsRs7C3uuyxeuDBzcMNj6K5ZmSv8MqNsYjBmrNP4cthJqjV1E3lN3ub08De63wTYgU_QyZReHR1Gzc-ydnXe-50wbviQ8Tlk7ppfSSNTVlyqJhSczxT2iwTA~"
 pub_date: ""
-tags: ["large-language-models", "chemical-synthesis", "reaction-prediction", "multi-expert-systems", "ai-assisted-discovery"]
+tags: ["llm-chemistry", "reaction-prediction", "ai-synthesis", "chemical-discovery", "expert-systems"]
 ai_relevance: 5
 relevance: null
 innovation: null
@@ -17,12 +17,12 @@ date_added: "2026-03-09"
 
 # Collective intelligence for AI-assisted chemical synthesis
 
-**人工智能辅助化学合成的集体智能**
+**面向人工智能辅助化学合成的集体智慧**
 
 ## 精华总结
-介绍了MOSAIC框架，一个基于LLMs的多专家AI系统，能够利用数百万反应协议的集体知识来指导化学合成，成功实现了71%的成功率并发现了35种新化合物。
+介绍了MOSAIC（多个优化的化学预测AI助手）计算框架，该框架使化学家能够利用数百万个反应协议的集体知识来实现新化合物的合成。该方法在复杂合成中实现了71%的成功率，并能发现训练数据中不存在的新反应方法论。
 
-**关键词**: 大语言模型、化学合成、多专家系统、反应预测、AI辅助发现
+**关键词**: 大语言模型、化学合成预测、AI辅助发现、专家系统、反应方法学
 
 ## 摘要（英文）
 The exponential growth of scientific literature presents an increasingly acute challenge across disciplines. Hundreds of thousands of new chemical reactions are reported annually, yet translating them into actionable experiments becomes an obstacle . Recent applications of large language models (LLMs) have shown promise , but systems that reliably work for diverse transformations across de novo compounds have remained elusive. Here we introduce MOSAIC (Multiple Optimized Specialists for AI-assisted Chemical Prediction), a computational framework that enables chemists to make use of the collective knowledge of millions of reaction protocols. MOSAIC is built on the Llama-3.1-8B-Instruct architecture , training 2,498 specialized chemical experts in Voronoi-clustered spaces. This approach delivers reproducible and executable experimental protocols with confidence metrics for complex syntheses. With an overall 71% success rate, experimental validation demonstrates the realizations of more than 35 new compounds, spanning pharmaceuticals, materials, agrochemicals and cosmetics. Notably, MOSAIC also enables the discovery of new reaction methodologies that are absent from the expert’s training, a cornerstone for advancing chemical synthesis. This scalable model of partitioning vast domains into searchable expert regions enables a generalizable strategy for AI-assisted discovery wherever accelerating information growth outpaces efficient knowledge access and application.

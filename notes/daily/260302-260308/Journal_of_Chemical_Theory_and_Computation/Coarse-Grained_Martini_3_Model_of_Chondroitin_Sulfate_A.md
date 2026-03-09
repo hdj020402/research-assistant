@@ -5,7 +5,7 @@ journal: "Journal of Chemical Theory and Computation"
 doi: "10.1021/acs.jctc.5c01743"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6xT1Jb4aEyuRmDh55EbZE1wLy-2FiIIlpbaUoL-2FK-2FS6jrxRxJi0OMDHUs7kwUCfR5xlrvgcuWoOUMLHirGqVQ-2ByFJ9nuSqH-2B6GGWZ8IcKtlLFXuSmTE7B6EhfW6f0BD0QtiRWCom0DGcMcxFNiD2ZUgQ98I2_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjRUiIjfFOgquT67-2Bwuql2fc-2FgVxAFC1RWERMKinc1JXchnp8Dqdz-2BiEHl1pBSzTE9eytuCbc0bf31Mw3GhhFGXkrUn-2BP5Kj4drihSTEO5CKU6a6ZrkOCIJDFBsnoqelc8TBLqAgV11WTLpCBSxpFhgkycK-2F-2BPpN6cB05rl-2Bcb5Y-2BmXVx4lPhNoXIniCc3NCbYHKnzB2MOV5IvxWUAAFNT04-2BTiS7XCYOZ0tA6Ho83ErE-3D"
 pub_date: ""
-tags: ["molecular-dynamics", "coarse-graining", "force-field", "biomolecules", "computational-chemistry"]
+tags: ["coarse-grained-modeling", "molecular-dynamics", "force-field-development", "polymer-simulation", "computational-chemistry"]
 ai_relevance: 2
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **硫酸软骨素A的粗粒马提尼3模型**
 
 ## 精华总结
-该研究基于Martini 3力场开发了硫酸软骨素A的粗粒化分子动力学模拟模型,能够再现其原子性质和聚合物结构,同时显著降低计算成本。通过改进静电参数处理,解决了默认参数导致过度聚集的问题,为高度带电系统的粗粒化模型发展提供了指导。
+本研究基于Martini 3力场开发了硫酸软骨素A的粗粒度分子动力学模拟模型，能够准确再现原子级性质和聚合物链结构，同时显著降低计算成本。针对高度带电体系的静电相互作用问题，提出了三种改进策略来解决默认参数导致的过度聚集现象。
 
-**关键词**: 粗粒化分子动力学、硫酸软骨素A、Martini力场、静电相互作用、计算模型
+**关键词**: 硫酸软骨素A、粗粒度分子动力学、Martini 3力场、静电相互作用、高度带电体系
 
 ## 摘要（英文）
 Chondroitin sulfate A (CSA) is a negatively charged linear glycosaminoglycan which plays a vital role in many biological processes. Research on CSA has been challenging due to its size, chemical heterogeneity, and multitude of binding partners. To address these issues, we developed a model of CSA for coarse-grained molecular dynamics simulations based on the Martini 3 force-field. We demonstrate that this model is capable of reproducing atomistic properties of the repeating CSA disaccharide unit, including its molecular volume and bonded interactions, and structural polymer properties of CSA chains of different lengths. In particular, for biologically-relevant long chains and despite of using an explicit solvent, the computational cost is significantly reduced, relative to the cost equivalent atomistic simulations would require. The compatibility of the model with the Martini Gō protein model was tested by retrieving the forceresponse of the CSA–malaria adhesin VAR2CSA complex. Importantly, we explored the influence of electrostatics on CSA aggregation. We show that the default Martini 3 parameters lead to over-aggregation. We provide at least three different strategies to alleviate this issue, making use of a bigger bead for sodium cations, reflecting its hydration shell, partial ionic charges, as a mean-field resource to take into account electronic polarizability, and, optionally, particle-mesh Ewald summation as a more robust treatment of long-range electrostatics. Our model opens the door for predictive modeling of CSA and potentially other chondroitin sulfates. In addition, this model provides insights for the further development of coarse-grained models of highly-charged systems.

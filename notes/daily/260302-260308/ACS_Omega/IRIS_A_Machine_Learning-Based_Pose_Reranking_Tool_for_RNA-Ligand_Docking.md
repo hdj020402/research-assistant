@@ -5,7 +5,7 @@ journal: "ACS Omega"
 doi: "10.1021/acsomega.5c11891"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6Rux07OK6ZAjTnzDd4vP47zwZB0KtBjdui-2FWq4i7qclNvQpZzmvd84dE0te1oDWZq7rvZE8qqFaGHHamW5mKAjVDSQaxYEOq8QJb3ZiUv-2FDHIPUTh9f9G-2Bl09oX5Bg54OPqYjNoQAYiWe6mjQQarNAH20u_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjyNnjjJYuofzjAi1t96KuWihIxhb3pRbBexokE0zbXmpBLSnvUhnChwjowWu9MDXDnnpNi-2FXp2nADfdkd0aPHvIUhbQQHliF2o2uGKE1SirXO2bDtAjXQLrAiVhjBbZOv183AdS2n4x0e0x8YU6RFNJnZQVs1A4yKJpQUaXqLF5rOBpfJcyNO-2BMFI3tnLXcxOXmQtwWN9YcJagtYzaNzS8CySxBfKaeX7cRN2wIaMhk4-3D"
 pub_date: ""
-tags: ["machine-learning", "molecular-docking", "rna-ligand-interaction", "pose-ranking", "drug-discovery"]
+tags: ["machine-learning", "rna-docking", "drug-discovery", "pose-ranking"]
 ai_relevance: 4
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **IRIS: 一种基于机器学习的RNA-配体对接姿态重新排序工具**
 
 ## 精华总结
-智能RNA相互作用评分器(IRIS)是一个回归模型,利用物理化学和相互作用特征,在迄今为止最大的实验核酸-配体复合物数据集(1,356个结构)上训练,显著提高了姿态排序准确性,可无缝集成到对接流程中以优化RNA靶向药物发现中的配体姿态。
+Intelligent RNA Interaction Scorer (IRIS)是一个回归模型,利用物理化学和相互作用特征,在迄今为止最大的核酸-配体复合物实验数据集(1,356个结构)上训练,显著提高了RNA靶向药物发现中的配体姿态排序准确性。
 
-**关键词**: RNA对接、机器学习、姿态排序、配体设计、药物发现
+**关键词**: RNA对接、机器学习、姿态排序、药物发现
 
 ## 摘要（英文）
 RNA-ligand docking remains challenging, due in part to intrinsic properties of RNA such as structural flexibility and a highly charged phosphate backbone. rDock, a widely used RNA docking program, can generate ligand poses close to the experimental structure, but its scoring function frequently fails to rank these poses above less accurate alternatives. To supplement rDock, here we introduce the Intelligent RNA Interaction Scorer (IRIS), a regression model leveraging physicochemical and interaction-based features and trained on the largest dataset of experimental nucleic acid-ligand complexes compiled to date (1,356 structures). IRIS improves rDock RNA-ligand pose ranking relative to the use of rDock scores alone. We find that at least one of the 100 top generated poses for any given complex is within 2.0 Å RMSD of the native pose in 79.4% of test complexes. Of these 79.4%%, the default rDock scoring function ranks the correct pose first in 40.2% of cases. IRIS improves this latter fraction to 52.7% and increases the success rate for selecting a near-native pose among the top five ranked poses from 55.4% to 73.2%. IRIS thus significantly enhances pose ranking accuracy and can be seamlessly integrated into docking pipelines to refine ligand poses in RNA-targeted drug discovery.

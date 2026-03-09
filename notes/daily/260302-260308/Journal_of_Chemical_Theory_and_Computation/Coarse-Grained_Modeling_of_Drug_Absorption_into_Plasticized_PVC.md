@@ -5,7 +5,7 @@ journal: "Journal of Chemical Theory and Computation"
 doi: "10.1021/acs.jctc.5c02155"
 url: "http://url5675.acs.org/ls/click?upn=u001.GXhmshJPA1t8vlxMR-2FToII2roP7p3-2BAW2NtcJEvBqZ6xT1Jb4aEyuRmDh55EbZE1mgwnwxjHDS7Yft082oLxnSKbxWvNBWJuWda-2FtuzRvuPo5rPLJPvvJb-2Bv19Y2ZM0K8-2FJ0GSBTK90Z-2BVPx-2Big5keM1vyq0B8FELI87tfdm-2B0vtIXs4TGWxkmI7Yo0CLhtPP8Ke_lCfgyiCVNF2aFl1C5Hre7Otyl3MOx4XtLxhxzfQ-2BJEA4TixnLSSnHKtti6TVNqJjRUiIjfFOgquT67-2Bwuql2fc-2FgVxAFC1RWERMKinc1JXd-2BpVvV3Th9DbHbdKnVvbc-2B5X0NlF-2FJmvBAnsYJr3wf4-2BH2s83BmDi-2BojSibYMbwQUyS-2F94tNIe8KTxvwOKZcXZOIh6hIsyuc-2FT4HAKuzB6EcdN6Zq3LHn1MzrcGJtj6L9oM8U6wFMQo6zc9wpJJvCRgZGF0TcsXgj0-2FrM6EmklBM1G20axUxiExVoOCN0gXuI-3D"
 pub_date: ""
-tags: ["molecular-simulation", "drug-polymer-interactions", "coarse-grained-modeling", "computational-chemistry"]
+tags: ["molecular-simulation", "coarse-grained-modeling", "drug-delivery", "polymer-interactions", "computational-chemistry"]
 ai_relevance: 2
 relevance: null
 innovation: null
@@ -20,9 +20,9 @@ date_added: "2026-03-09"
 **药物吸收到增塑PVC中的粗粒度模型**
 
 ## 精华总结
-本研究建立了一个可转移的粗粒度框架，用于在扩展的时间尺度上模拟药物-聚合物相互作用，弥合了原子论见解与实验观察之间的鸿沟，为包括赋形剂和复杂聚合物制剂的完整输液系统模拟奠定了基础。
+本研究建立了一个可转移的粗粒化框架，用于在更长的时间尺度上模拟药物-聚合物相互作用，弥合了原子论见解与实验观察之间的差距，为包括赋形剂和复杂聚合物制剂的完整输液系统模拟铺平了道路。
 
-**关键词**: 粗粒度模拟、药物吸收、聚氯乙烯、Martini框架、自由能计算
+**关键词**: 粗粒化模型、药物吸收、PVC聚合物、分子模拟、Martini框架
 
 ## 摘要（英文）
 Drug losses during infusions can be caused by complex adsorption and absorption phenomena at the interface between aqueous formulations and polymer-based medical devices, most commonly made of plasticized poly(vinyl chloride) (PVC). Despite their success in describing adsorption phenomena, molecular simulation methods are inherently limited by their length and time scales, which precludes their application to the study of absorption processes. Here, we extended this molecular understanding using the Martini 3 coarse-grained framework to explore absorption within plasticized PVC matrices containing either DEHT or TOTM plasticizers. We used a top-down approach to refine intermolecular interactions. After optimizing the solute-water and solute-PVC nonbonded interactions to reproduce experimental partitioning data, we combined potential of mean force (PMF), free-energy perturbation (BAR), and long equilibrium simulations to map both the thermodynamic and kinetic aspects of sorption. This work establishes a transferable coarse-grained framework for modeling drug-polymer interactions over extended time scales, bridging atomistic insights with experimental observations and paving the way toward full infusion-system simulations including excipients and complex polymer formulations.
