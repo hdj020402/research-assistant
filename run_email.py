@@ -9,7 +9,7 @@ from shared.config_loader import load_config
 from shared.claude_client import ClaudeClient
 from modules.email_extraction.gmail_client import fetch_toc_emails, send_summary_email
 from modules.email_extraction.email_parser import parse_email
-from modules.email_extraction.abstract_fetcher import fetch_abstract
+from modules.email_extraction.abstract_fetcher import fetch_abstract, fetch_abstract_by_doi
 from modules.email_extraction.scholarly_fetcher import fetch_paper_metadata
 from modules.email_extraction.translator import translate
 from modules.email_extraction.claude_processor import process_article
@@ -105,11 +105,11 @@ def main():
             log.warning("No articles matched relevance keywords. Exiting.")
             sys.exit(0)
 
-    # Step 4: Fetch abstracts and DOIs (Semantic Scholar → web scrape → email fallback)
+    # Step 4: Fetch abstracts and DOIs (S2 → DOI page → email URL → email fallback)
     s2_tldrs = {}  # title → TLDR text from S2
     if proc_cfg.get("fetch_web_abstract", True):
         timeout = proc_cfg.get("web_fetch_timeout_seconds", 10)
-        s2_count, web_count = 0, 0
+        s2_count, doi_count, web_count = 0, 0, 0
         for i, article in enumerate(all_articles_raw):
             label = f"[{i+1}/{len(all_articles_raw)}]"
 
@@ -121,12 +121,25 @@ def main():
             if s2["tldr"]:
                 s2_tldrs[article.title] = s2["tldr"]
 
+            # Fill in DOI if missing (before DOI-based fetch)
+            if not article.doi and s2["doi"]:
+                article.doi = s2["doi"]
+
             if s2["abstract"]:
                 article.abstract_from_email = s2["abstract"]
                 s2_count += 1
                 log.info(f"  {label} S2 abstract: {article.title[:50]}")
+            elif article.doi:
+                # Fall back to DOI → publisher page (bypasses email tracking URLs)
+                fetched = fetch_abstract_by_doi(article.doi, timeout=timeout)
+                if fetched:
+                    article.abstract_from_email = fetched
+                    doi_count += 1
+                    log.info(f"  {label} DOI abstract: {article.title[:50]}")
+                elif not article.abstract_from_email:
+                    log.warning(f"  {label} No abstract: {article.title[:50]}")
             elif article.url:
-                # Fall back to web scraping
+                # Fall back to email URL scraping
                 fetched = fetch_abstract(article.url, timeout=timeout)
                 if fetched:
                     article.abstract_from_email = fetched
@@ -135,13 +148,9 @@ def main():
                 elif not article.abstract_from_email:
                     log.warning(f"  {label} No abstract: {article.title[:50]}")
 
-            # Fill in DOI if missing
-            if not article.doi and s2["doi"]:
-                article.doi = s2["doi"]
-
         log.info(
-            f"Abstracts: {s2_count} from S2, {web_count} from web, "
-            f"{len(all_articles_raw) - s2_count - web_count} from email/none"
+            f"Abstracts: {s2_count} S2, {doi_count} DOI, {web_count} web, "
+            f"{len(all_articles_raw) - s2_count - doi_count - web_count} email/none"
         )
 
     # After fetching abstracts, re-run keyword filter for articles that now have abstracts

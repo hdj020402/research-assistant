@@ -1,7 +1,10 @@
 """Fetch full abstracts from publisher journal pages with graceful degradation."""
-import requests
+import logging
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 from shared.rate_limiter import RateLimiter
+
+log = logging.getLogger(__name__)
 
 # Per-publisher CSS selectors for abstract extraction
 ABSTRACT_SELECTORS = {
@@ -32,16 +35,6 @@ ABSTRACT_SELECTORS = {
     ],
 }
 
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/120.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.5",
-}
-
 _rate_limiter = RateLimiter(calls_per_second=0.5)  # max 1 request per 2 seconds
 
 
@@ -49,17 +42,34 @@ def fetch_abstract(url: str, timeout: int = 10) -> str:
     """
     Try to fetch the abstract from a journal article page.
 
+    Uses curl_cffi with Chrome impersonation to bypass Cloudflare.
     Returns empty string on any failure (graceful degradation).
     """
     if not url or not url.startswith("http"):
         return ""
     try:
         _rate_limiter.wait()
-        response = requests.get(url, headers=HEADERS, timeout=timeout, allow_redirects=True)
+        response = requests.get(
+            url, impersonate="chrome", timeout=timeout, allow_redirects=True,
+        )
         response.raise_for_status()
-        return _extract_abstract(response.text, response.url)
+        return _extract_abstract(response.text, str(response.url))
     except Exception:
         return ""
+
+
+def fetch_abstract_by_doi(doi: str, timeout: int = 10) -> str:
+    """
+    Fetch abstract using DOI → doi.org redirect → publisher page.
+
+    This bypasses email tracking URLs and goes directly to the article.
+    Returns empty string on any failure.
+    """
+    if not doi:
+        return ""
+    url = f"https://doi.org/{doi}"
+    log.debug(f"Fetching abstract via DOI: {url}")
+    return fetch_abstract(url, timeout=timeout)
 
 
 def _extract_abstract(html: str, final_url: str) -> str:
